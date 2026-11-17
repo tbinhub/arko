@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="17 17 166 166" role="img" aria-label="Six radial V shapes logo">
+  <defs>
+    <g id="letter-v" fill="none" stroke-width="17" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M72.864 35 L100 82" stroke="#00CC77"/>
+      <path d="M100 82 L127.136 35" stroke="#61E9B0"/>
+    </g>
+  </defs>
+  <use href="#letter-v"/>
+  <use href="#letter-v" transform="rotate(60 100 100)"/>
+  <use href="#letter-v" transform="rotate(120 100 100)"/>
+  <use href="#letter-v" transform="rotate(180 100 100)"/>
+  <use href="#letter-v" transform="rotate(240 100 100)"/>
+  <use href="#letter-v" transform="rotate(300 100 100)"/>
+</svg>
