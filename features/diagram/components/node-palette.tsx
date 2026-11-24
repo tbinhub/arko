@@ -3,6 +3,8 @@
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { catalogCategories, nodeCatalog } from "@/features/diagram/model/catalog";
 import type { ArchitectureNodeKind } from "@/features/diagram/model/types";
 import { useDiagramStore } from "@/features/diagram/store/diagram-store-provider";
@@ -38,53 +40,56 @@ export function NodePalette() {
                     <Search className="absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
                     <Input
                         value={query}
-                        onChange={(event) => setQuery(event.target.value)}
+                        onInput={(event) => setQuery(event.currentTarget.value)}
                         placeholder="Search components"
                         className="h-8 pl-8 text-xs"
                     />
                 </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-3">
-                {catalogCategories.map((category) => {
-                    const items = filtered.filter((item) => item.category === category);
-                    if (items.length === 0) return null;
+            <ScrollArea className="min-h-0 flex-1">
+                <div className="p-3">
+                    {catalogCategories.map((category) => {
+                        const items = filtered.filter((item) => item.category === category);
+                        if (items.length === 0) return null;
 
-                    return (
-                        <section key={category} className="mb-5">
-                            <h2 className="mb-2 px-1 text-[11px] font-medium text-muted-foreground">
-                                {category}
-                            </h2>
-                            <div className="space-y-1">
-                                {items.map((item) => (
-                                    <button
-                                        key={item.kind}
-                                        type="button"
-                                        draggable
-                                        onDragStart={(event) => {
-                                            event.dataTransfer.setData(dragType, item.kind);
-                                            event.dataTransfer.effectAllowed = "copy";
-                                        }}
-                                        onClick={() => addToCanvas(item.kind)}
-                                        className="flex w-full cursor-grab items-center gap-2.5 rounded-lg px-2 py-2 text-left transition-colors hover:bg-muted active:cursor-grabbing"
-                                    >
-                                        <span className="flex size-8 items-center justify-center rounded-lg border bg-card text-muted-foreground shadow-xs">
-                                            <NodeIcon name={item.icon} className="size-4" />
-                                        </span>
-                                        <span className="min-w-0">
-                                            <span className="block truncate text-xs font-medium">
-                                                {item.label}
+                        return (
+                            <section key={category} className="mb-5">
+                                <h2 className="mb-2 px-1 text-[11px] font-medium text-muted-foreground">
+                                    {category}
+                                </h2>
+                                <div className="space-y-1">
+                                    {items.map((item) => (
+                                        <Button
+                                            key={item.kind}
+                                            type="button"
+                                            variant="ghost"
+                                            draggable
+                                            onDragStart={(event) => {
+                                                event.dataTransfer.setData(dragType, item.kind);
+                                                event.dataTransfer.effectAllowed = "copy";
+                                            }}
+                                            onClick={() => addToCanvas(item.kind)}
+                                            className="h-auto w-full cursor-grab justify-start gap-2.5 px-2 py-2 text-left active:cursor-grabbing"
+                                        >
+                                            <span className="flex size-8 items-center justify-center rounded-lg border bg-card text-muted-foreground shadow-xs">
+                                                <NodeIcon name={item.icon} className="size-4" />
                                             </span>
-                                            <span className="block truncate text-[10px] text-muted-foreground">
-                                                {item.description}
+                                            <span className="min-w-0">
+                                                <span className="block truncate text-xs font-medium">
+                                                    {item.label}
+                                                </span>
+                                                <span className="block truncate text-[10px] text-muted-foreground">
+                                                    {item.description}
+                                                </span>
                                             </span>
-                                        </span>
-                                    </button>
-                                ))}
-                            </div>
-                        </section>
-                    );
-                })}
-            </div>
+                                        </Button>
+                                    ))}
+                                </div>
+                            </section>
+                        );
+                    })}
+                </div>
+            </ScrollArea>
         </aside>
     );
 }

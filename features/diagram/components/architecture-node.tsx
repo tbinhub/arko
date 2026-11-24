@@ -5,6 +5,7 @@ import { memo } from "react";
 import { cn } from "cn";
 import type { ArchitectureNode } from "@/features/diagram/model/types";
 import { NodeIcon } from "./node-icon";
+import { Card } from "@/components/ui/card";
 
 const accentStyles = {
     emerald: "bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
@@ -20,9 +21,9 @@ export const ArchitectureNodeComponent = memo(function ArchitectureNodeComponent
     selected,
 }: NodeProps<ArchitectureNode>) {
     return (
-        <div
+        <Card
             className={cn(
-                "group min-w-52 rounded-xl border bg-card p-3 shadow-sm transition-[border-color,box-shadow]",
+                "group min-w-52 gap-0 rounded-xl py-3 shadow-sm transition-[border-color,box-shadow]",
                 selected &&
                     "border-primary shadow-[0_0_0_3px_color-mix(in_oklch,var(--primary)_16%,transparent)]",
             )}
@@ -32,7 +33,7 @@ export const ArchitectureNodeComponent = memo(function ArchitectureNodeComponent
                 position={Position.Left}
                 className="!size-2.5 !border-2 !border-background !bg-muted-foreground opacity-0 transition-opacity group-hover:opacity-100"
             />
-            <div className="flex items-start gap-3">
+            <div className="flex items-start gap-3 px-3">
                 <span
                     className={cn(
                         "flex size-9 shrink-0 items-center justify-center rounded-lg",
@@ -55,6 +56,6 @@ export const ArchitectureNodeComponent = memo(function ArchitectureNodeComponent
                 position={Position.Right}
                 className="!size-2.5 !border-2 !border-background !bg-muted-foreground opacity-0 transition-opacity group-hover:opacity-100"
             />
-        </div>
+        </Card>
     );
 });

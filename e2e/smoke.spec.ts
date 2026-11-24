@@ -36,6 +36,16 @@ test("exposes application metadata", async ({ page, request }) => {
     expect(imageResponse.headers()["content-type"]).toContain("image/png");
 });
 
+test("uses the collapsible workspace sidebar", async ({ page }) => {
+    await page.goto("/");
+
+    const sidebar = page.locator('[data-slot="sidebar"][data-state]');
+    await expect(sidebar).toHaveAttribute("data-state", "expanded");
+    await page.getByRole("main").getByRole("button", { name: "Toggle Sidebar" }).click();
+    await expect(sidebar).toHaveAttribute("data-state", "collapsed");
+    await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
+});
+
 test("serves discovery metadata and a custom not-found page", async ({ page, request }) => {
     const robotsResponse = await request.get("/robots.txt");
     expect(robotsResponse.ok()).toBe(true);
@@ -107,6 +117,6 @@ test("keeps the editor usable on a mobile viewport", async ({ page }) => {
     await expect(page.getByRole("button", { name: "Add component" })).toBeVisible();
     await expect(page.getByPlaceholder("Search components")).toBeHidden();
     await page.getByRole("button", { name: "Add component" }).click();
-    await page.getByRole("menuitem", { name: "Service", exact: true }).click();
+    await page.getByRole("button", { name: "Service", exact: true }).click();
     await expect(page.locator(".react-flow__node")).toHaveCount(1);
 });

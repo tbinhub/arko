@@ -29,6 +29,7 @@ import { layoutDiagram } from "@/features/diagram/lib/auto-layout";
 import type { ArchitectureEdge, ArchitectureNode } from "@/features/diagram/model/types";
 import { downloadDiagramPng } from "@/features/diagram/lib/export-image";
 import { MobileNodeMenu } from "./mobile-node-menu";
+import { Separator } from "@/components/ui/separator";
 
 export function EditorHeader() {
     const title = useDiagramStore((state) => state.document.title);
@@ -85,7 +86,7 @@ export function EditorHeader() {
         <header className="flex h-14 shrink-0 items-center border-b bg-background px-3">
             <div className="flex min-w-0 flex-1 items-center gap-2">
                 <BrandMark compact className="p-1 hover:bg-muted" />
-                <div className="mx-1 h-5 w-px bg-border" />
+                <Separator orientation="vertical" className="mx-1 h-5!" />
                 <Input
                     value={title}
                     onInput={(event) => setTitle(event.currentTarget.value)}
@@ -129,7 +130,7 @@ export function EditorHeader() {
                         <TooltipContent>Redo</TooltipContent>
                     </Tooltip>
                 </div>
-                <div className="mx-2 h-5 w-px bg-border" />
+                <Separator orientation="vertical" className="mx-2 h-5!" />
                 <Tooltip>
                     <TooltipTrigger
                         render={
