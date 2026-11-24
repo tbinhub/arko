@@ -2,8 +2,15 @@
 
 import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import {
+    Item,
+    ItemContent,
+    ItemDescription,
+    ItemGroup,
+    ItemMedia,
+    ItemTitle,
+} from "@/components/ui/item";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { catalogCategories, nodeCatalog } from "@/features/diagram/model/catalog";
 import type { ArchitectureNodeKind } from "@/features/diagram/model/types";
@@ -36,15 +43,18 @@ export function NodePalette() {
                 <p className="px-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                     Components
                 </p>
-                <div className="relative mt-2">
-                    <Search className="absolute top-1/2 left-2.5 size-3.5 -translate-y-1/2 text-muted-foreground" />
-                    <Input
+                <InputGroup className="mt-2">
+                    <InputGroupAddon>
+                        <Search className="size-3.5" />
+                    </InputGroupAddon>
+                    <InputGroupInput
                         value={query}
                         onInput={(event) => setQuery(event.currentTarget.value)}
                         placeholder="Search components"
-                        className="h-8 pl-8 text-xs"
+                        aria-label="Search components"
+                        className="text-xs"
                     />
-                </div>
+                </InputGroup>
             </div>
             <ScrollArea className="min-h-0 flex-1">
                 <div className="p-3">
@@ -57,34 +67,34 @@ export function NodePalette() {
                                 <h2 className="mb-2 px-1 text-[11px] font-medium text-muted-foreground">
                                     {category}
                                 </h2>
-                                <div className="space-y-1">
+                                <ItemGroup className="gap-1">
                                     {items.map((item) => (
-                                        <Button
+                                        <Item
                                             key={item.kind}
-                                            type="button"
-                                            variant="ghost"
+                                            size="xs"
+                                            render={<button type="button" />}
                                             draggable
                                             onDragStart={(event) => {
                                                 event.dataTransfer.setData(dragType, item.kind);
                                                 event.dataTransfer.effectAllowed = "copy";
                                             }}
                                             onClick={() => addToCanvas(item.kind)}
-                                            className="h-auto w-full cursor-grab justify-start gap-2.5 px-2 py-2 text-left active:cursor-grabbing"
+                                            className="cursor-grab flex-nowrap text-left hover:bg-muted active:cursor-grabbing"
                                         >
-                                            <span className="flex size-8 items-center justify-center rounded-lg border bg-card text-muted-foreground shadow-xs">
+                                            <ItemMedia className="flex size-8 items-center justify-center rounded-lg border bg-card text-muted-foreground shadow-xs">
                                                 <NodeIcon name={item.icon} className="size-4" />
-                                            </span>
-                                            <span className="min-w-0">
-                                                <span className="block truncate text-xs font-medium">
+                                            </ItemMedia>
+                                            <ItemContent className="min-w-0">
+                                                <ItemTitle className="text-xs">
                                                     {item.label}
-                                                </span>
-                                                <span className="block truncate text-[10px] text-muted-foreground">
+                                                </ItemTitle>
+                                                <ItemDescription className="line-clamp-1 text-[10px]">
                                                     {item.description}
-                                                </span>
-                                            </span>
-                                        </Button>
+                                                </ItemDescription>
+                                            </ItemContent>
+                                        </Item>
                                     ))}
-                                </div>
+                                </ItemGroup>
                             </section>
                         );
                     })}
