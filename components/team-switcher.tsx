@@ -18,14 +18,14 @@ import {
     SidebarMenuItem,
     useSidebar,
 } from "@/components/ui/sidebar";
-import { ChevronsUpDownIcon, PlusIcon } from "lucide-react";
+import { ChevronsUpDownIcon, PlusIcon, type LucideIcon } from "lucide-react";
 
 export function TeamSwitcher({
     teams,
 }: {
     teams: {
         name: string;
-        logo: React.ReactNode;
+        logo: LucideIcon;
         plan: string;
     }[];
 }) {
@@ -42,12 +42,12 @@ export function TeamSwitcher({
                         render={
                             <SidebarMenuButton
                                 size="lg"
-                                className="data-open:bg-sidebar-accent data-open:text-sidebar-accent-foreground"
+                                className="aria-expanded:bg-sidebar-accent aria-expanded:text-sidebar-accent-foreground"
                             />
                         }
                     >
                         <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                            {activeTeam.logo}
+                            <activeTeam.logo className="size-4" />
                         </div>
                         <div className="grid flex-1 text-left text-sm leading-tight">
                             <span className="truncate font-medium">{activeTeam.name}</span>
@@ -56,7 +56,7 @@ export function TeamSwitcher({
                         <ChevronsUpDownIcon className="ml-auto" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
-                        className="w-fit"
+                        className="min-w-56 rounded-lg"
                         align="start"
                         side={isMobile ? "bottom" : "right"}
                         sideOffset={4}
@@ -72,7 +72,7 @@ export function TeamSwitcher({
                                     className="gap-2 p-2"
                                 >
                                     <div className="flex size-6 items-center justify-center rounded-md border">
-                                        {team.logo}
+                                        <team.logo className="size-3.5 shrink-0" />
                                     </div>
                                     {team.name}
                                     <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>

@@ -40,11 +40,16 @@ export function NavUser({
             <SidebarMenuItem>
                 <DropdownMenu>
                     <DropdownMenuTrigger
-                        render={<SidebarMenuButton size="lg" className="aria-expanded:bg-muted" />}
+                        render={
+                            <SidebarMenuButton
+                                size="lg"
+                                className="aria-expanded:bg-sidebar-accent aria-expanded:text-sidebar-accent-foreground"
+                            />
+                        }
                     >
-                        <Avatar>
+                        <Avatar className="size-8 rounded-lg">
                             <AvatarImage src={user.avatar} alt={user.name} />
-                            <AvatarFallback>AR</AvatarFallback>
+                            <AvatarFallback className="rounded-lg">AR</AvatarFallback>
                         </Avatar>
                         <div className="grid flex-1 text-left text-sm leading-tight">
                             <span className="truncate font-medium">{user.name}</span>
@@ -53,7 +58,7 @@ export function NavUser({
                         <ChevronsUpDownIcon className="ml-auto size-4" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
-                        className="w-fit"
+                        className="min-w-56 rounded-lg"
                         side={isMobile ? "bottom" : "right"}
                         align="end"
                         sideOffset={4}
@@ -61,9 +66,9 @@ export function NavUser({
                         <DropdownMenuGroup>
                             <DropdownMenuLabel className="p-0 font-normal">
                                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                                    <Avatar>
+                                    <Avatar className="size-8 rounded-lg">
                                         <AvatarImage src={user.avatar} alt={user.name} />
-                                        <AvatarFallback>AR</AvatarFallback>
+                                        <AvatarFallback className="rounded-lg">AR</AvatarFallback>
                                     </Avatar>
                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                         <span className="truncate font-medium">{user.name}</span>

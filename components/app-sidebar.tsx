@@ -25,22 +25,22 @@ import {
 
 const data = {
     user: {
-        name: "Arko User",
-        email: "Local workspace",
+        name: "Arko",
+        email: "Workspace",
         avatar: "",
     },
     teams: [
         {
             name: "Arko",
-            logo: <GalleryVerticalEndIcon />,
-            plan: "Local workspace",
+            logo: GalleryVerticalEndIcon,
+            plan: "Workspace",
         },
     ],
     navMain: [
         {
             title: "Workspace",
             url: "/",
-            icon: <BlocksIcon />,
+            icon: BlocksIcon,
             isActive: true,
             items: [
                 {
@@ -56,7 +56,7 @@ const data = {
         {
             title: "Library",
             url: "#templates",
-            icon: <LayoutTemplateIcon />,
+            icon: LayoutTemplateIcon,
             items: [
                 {
                     title: "Templates",
@@ -67,7 +67,7 @@ const data = {
         {
             title: "Settings",
             url: "#",
-            icon: <Settings2Icon />,
+            icon: Settings2Icon,
             items: [
                 {
                     title: "General",
@@ -84,17 +84,17 @@ const data = {
         {
             name: "Software architecture",
             url: "#templates",
-            icon: <NetworkIcon />,
+            icon: NetworkIcon,
         },
         {
             name: "System design",
             url: "#templates",
-            icon: <FolderKanbanIcon />,
+            icon: FolderKanbanIcon,
         },
         {
             name: "Workflows",
             url: "#templates",
-            icon: <WorkflowIcon />,
+            icon: WorkflowIcon,
         },
     ],
 };

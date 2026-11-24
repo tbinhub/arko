@@ -41,6 +41,24 @@ test("uses the collapsible workspace sidebar", async ({ page }) => {
 
     const sidebar = page.locator('[data-slot="sidebar"][data-state]');
     await expect(sidebar).toHaveAttribute("data-state", "expanded");
+
+    const menuTriggers = page.locator('[data-slot="dropdown-menu-trigger"]');
+    const menuContent = page.locator('[data-slot="dropdown-menu-content"][data-open]');
+
+    await menuTriggers.first().click();
+    await expect(menuContent).toBeVisible();
+    expect(
+        await menuContent.evaluate((element) => element.getBoundingClientRect().width),
+    ).toBeGreaterThanOrEqual(224);
+    await page.keyboard.press("Escape");
+
+    await menuTriggers.last().click();
+    await expect(menuContent).toBeVisible();
+    expect(
+        await menuContent.evaluate((element) => element.getBoundingClientRect().width),
+    ).toBeGreaterThanOrEqual(224);
+    await page.keyboard.press("Escape");
+
     await page.getByRole("main").getByRole("button", { name: "Toggle Sidebar" }).click();
     await expect(sidebar).toHaveAttribute("data-state", "collapsed");
     await expect(page.getByRole("button", { name: "Workspace", exact: true })).toBeVisible();

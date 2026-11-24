@@ -11,7 +11,7 @@ import {
     SidebarMenuSubButton,
     SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
-import { ChevronRightIcon } from "lucide-react";
+import { ChevronRightIcon, type LucideIcon } from "lucide-react";
 
 export function NavMain({
     items,
@@ -19,7 +19,7 @@ export function NavMain({
     items: {
         title: string;
         url: string;
-        icon?: React.ReactNode;
+        icon?: LucideIcon;
         isActive?: boolean;
         items?: {
             title: string;
@@ -39,7 +39,7 @@ export function NavMain({
                         render={<SidebarMenuItem />}
                     >
                         <CollapsibleTrigger render={<SidebarMenuButton tooltip={item.title} />}>
-                            {item.icon}
+                            {item.icon && <item.icon />}
                             <span>{item.title}</span>
                             <ChevronRightIcon className="ml-auto transition-transform duration-200 group-data-open/collapsible:rotate-90" />
                         </CollapsibleTrigger>
