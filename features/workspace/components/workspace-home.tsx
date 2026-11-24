@@ -4,7 +4,7 @@ import { BrandMark } from "@/components/brand-mark";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 import { cn } from "@/lib/utils";
 import { CreateDiagramButton } from "@/features/workspace/components/create-diagram-button";
 import { DiagramPreview } from "@/features/workspace/components/diagram-preview";
@@ -23,14 +23,15 @@ export function WorkspaceHome() {
                     <div className="flex min-w-0 flex-1 items-center gap-3">
                         <SidebarTrigger />
                         <BrandMark compact className="shrink-0 md:hidden" />
-                        <div className="relative w-full max-w-sm">
-                            <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
-                            <Input
+                        <InputGroup className="w-full max-w-sm">
+                            <InputGroupAddon>
+                                <Search />
+                            </InputGroupAddon>
+                            <InputGroupInput
                                 aria-label="Search diagrams"
                                 placeholder="Search diagrams…"
-                                className="pl-8"
                             />
-                        </div>
+                        </InputGroup>
                     </div>
                     <div className="ml-4 flex items-center gap-3">
                         <CreateDiagramButton className="hidden sm:inline-flex" />
