@@ -1,44 +1,50 @@
 import Link from "next/link";
-import { ArrowRight, Search } from "lucide-react";
-import { BrandMark } from "@/components/brand-mark";
+import { ArrowRight } from "lucide-react";
+import { AppSidebar } from "@/components/app-sidebar";
 import { Badge } from "@/components/ui/badge";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { CreateDiagramButton } from "@/features/workspace/components/create-diagram-button";
 import { DiagramPreview } from "@/features/workspace/components/diagram-preview";
-import { WorkspaceSidebar } from "@/features/workspace/components/workspace-sidebar";
 import { workspaceTemplates } from "@/features/workspace/model/workspace-data";
 import { RecentDiagrams } from "@/features/workspace/components/recent-diagrams";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export function WorkspaceHome() {
     return (
         <SidebarProvider>
-            <WorkspaceSidebar />
-            <SidebarInset className="min-w-0">
-                <header className="flex h-16 items-center justify-between border-b px-5 sm:px-8">
-                    <div className="flex min-w-0 flex-1 items-center gap-3">
-                        <SidebarTrigger />
-                        <BrandMark compact className="shrink-0 md:hidden" />
-                        <InputGroup className="w-full max-w-sm">
-                            <InputGroupAddon>
-                                <Search />
-                            </InputGroupAddon>
-                            <InputGroupInput
-                                aria-label="Search diagrams"
-                                placeholder="Search diagrams…"
-                            />
-                        </InputGroup>
+            <AppSidebar />
+            <SidebarInset>
+                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+                    <div className="flex items-center gap-2 px-4">
+                        <SidebarTrigger className="-ml-1" />
+                        <Separator
+                            orientation="vertical"
+                            className="mr-2 data-vertical:h-4 data-vertical:self-auto"
+                        />
+                        <Breadcrumb>
+                            <BreadcrumbList>
+                                <BreadcrumbItem className="hidden md:block">
+                                    <BreadcrumbLink href="/">Arko</BreadcrumbLink>
+                                </BreadcrumbItem>
+                                <BreadcrumbSeparator className="hidden md:block" />
+                                <BreadcrumbItem>
+                                    <BreadcrumbPage>Workspace</BreadcrumbPage>
+                                </BreadcrumbItem>
+                            </BreadcrumbList>
+                        </Breadcrumb>
                     </div>
-                    <div className="ml-4 flex items-center gap-3">
-                        <CreateDiagramButton className="hidden sm:inline-flex" />
-                        <Avatar className="size-8">
-                            <AvatarFallback>AR</AvatarFallback>
-                        </Avatar>
-                    </div>
+                    <CreateDiagramButton className="mr-4 ml-auto hidden sm:inline-flex" />
                 </header>
 
                 <div className="mx-auto max-w-7xl px-5 py-9 sm:px-8 lg:px-10">

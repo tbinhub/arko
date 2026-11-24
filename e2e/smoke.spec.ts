@@ -43,7 +43,7 @@ test("uses the collapsible workspace sidebar", async ({ page }) => {
     await expect(sidebar).toHaveAttribute("data-state", "expanded");
     await page.getByRole("main").getByRole("button", { name: "Toggle Sidebar" }).click();
     await expect(sidebar).toHaveAttribute("data-state", "collapsed");
-    await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
+    await expect(page.getByRole("button", { name: "Workspace", exact: true })).toBeVisible();
 });
 
 test("serves discovery metadata and a custom not-found page", async ({ page, request }) => {
