@@ -38,11 +38,6 @@ export function InspectorPanel() {
 
     return (
         <aside className="hidden w-72 shrink-0 border-l bg-background lg:flex lg:flex-col">
-            <div className="border-b px-4 py-3">
-                <p className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-                    Inspector
-                </p>
-            </div>
             <ScrollArea className="min-h-0 flex-1">
                 {edge && selectedEdgeIds.length === 1 && selectedNodeIds.length === 0 ? (
                     <div className="space-y-5 p-4">

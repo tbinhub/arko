@@ -42,11 +42,12 @@ export function EditorHeader() {
         <header className="flex h-14 shrink-0 items-center border-b bg-background px-3">
             <div className="flex min-w-0 flex-1 items-center gap-2">
                 <BrandMark compact className="p-1 hover:bg-muted" />
-                <Separator orientation="vertical" className="mx-1 h-5!" />
+
+                <Separator orientation="vertical" className="mx-1 h-6! w-px! shrink-0 bg-border" />
                 <Input
                     value={title}
                     onInput={(event) => setTitle(event.currentTarget.value)}
-                    aria-label="Diagram title"
+                    aria-label="Software workflow title"
                     className="hidden h-8 max-w-56 border-transparent bg-transparent px-2 font-medium shadow-none hover:border-border focus-visible:border-border sm:block"
                 />
             </div>
@@ -85,7 +86,7 @@ export function EditorHeader() {
                         <TooltipContent>Redo</TooltipContent>
                     </Tooltip>
                 </div>
-                <Separator orientation="vertical" className="mx-2 h-5!" />
+                <Separator orientation="vertical" className="mx-2 h-5! w-px! shrink-0 bg-border" />
                 <Tooltip>
                     <TooltipTrigger
                         render={
