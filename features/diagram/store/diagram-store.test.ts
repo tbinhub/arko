@@ -24,19 +24,26 @@ describe("diagram store", () => {
     });
 
     it("removes connected edges when deleting a node", () => {
-        const store = createDiagramStore(createDiagramDocument("test", "web-application"));
-        const initialEdges = store.getState().document.edges.length;
+        const store = createDiagramStore(createDiagramDocument("test"));
+        const gatewayId = store.getState().addNode("gateway", { x: 0, y: 0 });
+        const serviceId = store.getState().addNode("service", { x: 240, y: 0 });
+        store.getState().connect({
+            source: gatewayId,
+            target: serviceId,
+            sourceHandle: null,
+            targetHandle: null,
+        });
 
-        store.getState().setSelection(["gateway"], []);
+        store.getState().setSelection([gatewayId], []);
         store.getState().deleteSelection();
 
-        expect(store.getState().document.nodes.some((node) => node.id === "gateway")).toBe(false);
-        expect(store.getState().document.edges.length).toBeLessThan(initialEdges);
+        expect(store.getState().document.nodes.some((node) => node.id === gatewayId)).toBe(false);
+        expect(store.getState().document.edges).toHaveLength(0);
         expect(
             store
                 .getState()
                 .document.edges.some(
-                    (edge) => edge.source === "gateway" || edge.target === "gateway",
+                    (edge) => edge.source === gatewayId || edge.target === gatewayId,
                 ),
         ).toBe(false);
     });

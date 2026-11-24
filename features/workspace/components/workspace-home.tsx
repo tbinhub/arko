@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { AppSidebar } from "@/components/app-sidebar";
-import { Badge } from "@/components/ui/badge";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -17,7 +16,6 @@ import { cn } from "@/lib/utils";
 import { CreateDiagramButton } from "@/features/workspace/components/create-diagram-button";
 import { DiagramPreview } from "@/features/workspace/components/diagram-preview";
 import { workspaceTemplates } from "@/features/workspace/model/workspace-data";
-import { RecentDiagrams } from "@/features/workspace/components/recent-diagrams";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export function WorkspaceHome() {
@@ -47,18 +45,14 @@ export function WorkspaceHome() {
                     <CreateDiagramButton className="mr-4 ml-auto hidden sm:inline-flex" />
                 </header>
 
-                <div className="mx-auto max-w-7xl px-5 py-9 sm:px-8 lg:px-10">
+                <div className="px-6 py-8 sm:px-8 lg:px-10">
                     <section className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
                         <div>
-                            <Badge variant="outline" className="mb-3">
-                                Architecture workspace
-                            </Badge>
                             <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-                                Design systems that make sense.
+                                Software Workflow
                             </h1>
-                            <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground sm:text-base">
-                                Map architecture, explain data flow, and keep technical decisions in
-                                one visual workspace.
+                            <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
+                                A workspace for architecture, diagrams, and workflows.
                             </p>
                         </div>
                         <CreateDiagramButton className="sm:hidden" />
@@ -71,7 +65,7 @@ export function WorkspaceHome() {
                                     Start from a template
                                 </h2>
                                 <p className="mt-1 text-sm text-muted-foreground">
-                                    Opinionated foundations for common system patterns.
+                                    Choose a pattern to start your design.
                                 </p>
                             </div>
                             <Link
@@ -85,7 +79,7 @@ export function WorkspaceHome() {
                                 <ArrowRight />
                             </Link>
                         </div>
-                        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+                        <div className="grid gap-4 md:grid-cols-1 xl:grid-cols-1">
                             {workspaceTemplates.map((template) => (
                                 <Card
                                     key={template.id}
@@ -121,18 +115,6 @@ export function WorkspaceHome() {
                                 </Card>
                             ))}
                         </div>
-                    </section>
-
-                    <section id="diagrams" className="mt-12 scroll-mt-6">
-                        <div className="mb-5">
-                            <h2 className="text-lg font-semibold tracking-tight">
-                                Recent diagrams
-                            </h2>
-                            <p className="mt-1 text-sm text-muted-foreground">
-                                Pick up where you left off.
-                            </p>
-                        </div>
-                        <RecentDiagrams />
                     </section>
                 </div>
             </SidebarInset>

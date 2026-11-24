@@ -46,7 +46,7 @@ export type DiagramDocument = {
     edges: ArchitectureEdge[];
 };
 
-export type DiagramTemplateId = "blank" | "web-application" | "microservices" | "event-driven";
+export type DiagramTemplateId = "blank";
 
 export type NewNodeInput = {
     kind: ArchitectureNodeKind;

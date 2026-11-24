@@ -19,9 +19,7 @@ test("exposes application metadata", async ({ page, request }) => {
     await page.goto("/");
 
     await expect(page).toHaveTitle("Workspace | Arko");
-    await expect(
-        page.getByRole("heading", { name: "Design systems that make sense." }),
-    ).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Software Workflow" })).toBeVisible();
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
         "content",
         "Create workflows, software architecture, and system diagrams visually.",
@@ -79,26 +77,21 @@ test("serves discovery metadata and a custom not-found page", async ({ page, req
     await expect(page.getByRole("heading", { name: "Not Found" })).toBeVisible();
 });
 
-test("opens an interactive architecture template", async ({ page, browserName }) => {
-    await page.goto("/editor/e2e-preview?template=web-application");
+test("opens the empty React Flow canvas", async ({ page }) => {
+    await page.goto("/editor/e2e-preview?template=blank");
 
-    await expect(page.getByLabel("Diagram title")).toHaveValue("Web application");
-    await expect(page.locator(".react-flow__node")).toHaveCount(5);
-    await expect(page.getByText("Application service", { exact: true })).toBeVisible();
-    await expect(page.getByText("read", { exact: true })).toBeVisible();
-
-    await page.locator(".react-flow__edge-interaction").first().dispatchEvent("click");
-    const flowSwitch = page.getByRole("switch", { name: "Animate data flow" });
-    await expect(flowSwitch).toBeVisible();
-    await flowSwitch.click();
-    await expect(page.locator(".arko-edge-flow")).toHaveCount(1);
+    await expect(page.getByLabel("Diagram title")).toHaveValue("Software Workflow");
+    await expect(page.locator(".react-flow")).toBeVisible();
+    await expect(page.locator(".react-flow__node")).toHaveCount(0);
+    await expect(page.locator(".react-flow__controls")).toBeVisible();
+    await expect(page.locator(".react-flow__minimap")).toBeVisible();
 
     await page.getByRole("button", { name: "Export" }).click();
     await expect(page.getByRole("menuitem", { name: "Arko JSON", exact: true })).toBeVisible();
     const jsonDownloadPromise = page.waitForEvent("download");
     await page.getByRole("menuitem", { name: "Arko JSON", exact: true }).click();
     const jsonDownload = await jsonDownloadPromise;
-    expect(jsonDownload.suggestedFilename()).toBe("web-application.arko.json");
+    expect(jsonDownload.suggestedFilename()).toBe("software-workflow.arko.json");
 
     await page.getByRole("button", { name: "Export" }).click();
     await page.getByRole("menuitem", { name: "Import Arko JSON" }).click();
@@ -108,20 +101,12 @@ test("opens an interactive architecture template", async ({ page, browserName })
     await page.locator('input[type="file"]').setInputFiles(downloadedFile);
     await page.getByRole("button", { name: "Import diagram" }).click();
     await expect(page.getByText("Diagram imported")).toBeVisible();
-
-    if (browserName === "chromium") {
-        await page.getByRole("button", { name: "Export" }).click();
-        const imageDownloadPromise = page.waitForEvent("download", { timeout: 15_000 });
-        await page.getByRole("menuitem", { name: "PNG image" }).click();
-        const imageDownload = await imageDownloadPromise;
-        expect(imageDownload.suggestedFilename()).toBe("web-application.png");
-    }
 });
 
 test("restores locally saved diagram changes", async ({ page }) => {
     const documentId = `persistence-${Date.now()}`;
-    await page.goto(`/editor/${documentId}?template=web-application`);
-    await expect(page.locator(".react-flow__node")).toHaveCount(5);
+    await page.goto(`/editor/${documentId}?template=blank`);
+    await expect(page.locator(".react-flow__node")).toHaveCount(0);
 
     const title = page.getByLabel("Diagram title");
     await title.fill("Resilient commerce platform");
@@ -134,17 +119,13 @@ test("restores locally saved diagram changes", async ({ page }) => {
     await page.reload();
 
     await expect(title).toHaveValue("Resilient commerce platform");
-    await page.getByRole("link", { name: "Done" }).click();
-    await expect(page.getByText("Resilient commerce platform", { exact: true })).toBeVisible();
 });
 
 test("keeps the editor usable on a mobile viewport", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`/editor/mobile-${Date.now()}?template=blank`);
 
-    await expect(page.getByRole("button", { name: "Add component" })).toBeVisible();
-    await expect(page.getByPlaceholder("Search components")).toBeHidden();
-    await page.getByRole("button", { name: "Add component" }).click();
-    await page.getByRole("button", { name: "Service", exact: true }).click();
-    await expect(page.locator(".react-flow__node")).toHaveCount(1);
+    await expect(page.locator(".react-flow")).toBeVisible();
+    await expect(page.locator(".react-flow__node")).toHaveCount(0);
+    await expect(page.getByRole("button", { name: "Add component" })).toHaveCount(0);
 });

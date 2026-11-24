@@ -4,11 +4,11 @@ import { diagramFileName, parseDiagram, serializeDiagram } from "./export-docume
 
 describe("diagram export", () => {
     it("creates a portable versioned JSON document", () => {
-        const document = createDiagramDocument("portable", "event-driven");
+        const document = createDiagramDocument("portable");
         const exported = JSON.parse(serializeDiagram(document));
 
         expect(exported).toMatchObject({ id: "portable", schemaVersion: 1 });
-        expect(exported.nodes).toHaveLength(6);
+        expect(exported.nodes).toEqual([]);
     });
 
     it("creates a safe file name", () => {
@@ -17,11 +17,11 @@ describe("diagram export", () => {
     });
 
     it("validates imported diagrams and adopts the current route identity", () => {
-        const portable = createDiagramDocument("source", "microservices");
+        const portable = createDiagramDocument("source");
         const imported = parseDiagram(serializeDiagram(portable), "destination");
 
         expect(imported.id).toBe("destination");
-        expect(imported.nodes).toHaveLength(7);
+        expect(imported.nodes).toEqual([]);
         expect(() => parseDiagram('{"schemaVersion":99}', "destination")).toThrow(
             "valid Arko diagram",
         );

@@ -28,7 +28,6 @@ import { downloadDiagram, parseDiagram } from "@/features/diagram/lib/export-doc
 import { layoutDiagram } from "@/features/diagram/lib/auto-layout";
 import type { ArchitectureEdge, ArchitectureNode } from "@/features/diagram/model/types";
 import { downloadDiagramPng } from "@/features/diagram/lib/export-image";
-import { MobileNodeMenu } from "./mobile-node-menu";
 import { Separator } from "@/components/ui/separator";
 import { ImportDiagramDialog } from "./import-diagram-dialog";
 import { toast } from "sonner";
@@ -97,7 +96,6 @@ export function EditorHeader() {
                 />
             </div>
             <div className="flex items-center gap-1">
-                <MobileNodeMenu />
                 <div className="hidden items-center gap-1 sm:flex">
                     <Tooltip>
                         <TooltipTrigger

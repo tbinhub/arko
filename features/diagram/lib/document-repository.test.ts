@@ -6,7 +6,7 @@ describe("local document repository", () => {
     beforeEach(() => window.localStorage.clear());
 
     it("stores and restores a versioned diagram", () => {
-        const document = createDiagramDocument("saved-diagram", "web-application");
+        const document = createDiagramDocument("saved-diagram");
         writeLocalDocument(document);
 
         expect(readLocalDocument(document.id)).toEqual(document);

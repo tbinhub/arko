@@ -10,8 +10,6 @@ import {
 import { DiagramCanvas } from "./diagram-canvas";
 import { EditorHeader } from "./editor-header";
 import { EditorPersistence } from "./editor-persistence";
-import { InspectorPanel } from "./inspector-panel";
-import { NodePalette } from "./node-palette";
 
 function EditorKeyboardShortcuts({ children }: { children: ReactNode }) {
     const undo = useDiagramStore((state) => state.undo);
@@ -54,9 +52,7 @@ export function EditorShell({ initialDocument }: { initialDocument: DiagramDocum
                     <main className="flex h-dvh flex-col overflow-hidden bg-background">
                         <EditorHeader />
                         <div className="flex min-h-0 flex-1">
-                            <NodePalette />
                             <DiagramCanvas />
-                            <InspectorPanel />
                         </div>
                     </main>
                 </EditorKeyboardShortcuts>
