@@ -11,15 +11,18 @@ import { DiagramPreview } from "@/features/workspace/components/diagram-preview"
 import { WorkspaceSidebar } from "@/features/workspace/components/workspace-sidebar";
 import { workspaceTemplates } from "@/features/workspace/model/workspace-data";
 import { RecentDiagrams } from "@/features/workspace/components/recent-diagrams";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export function WorkspaceHome() {
     return (
-        <main className="flex min-h-screen bg-background">
+        <SidebarProvider>
             <WorkspaceSidebar />
-            <div className="min-w-0 flex-1">
+            <SidebarInset className="min-w-0">
                 <header className="flex h-16 items-center justify-between border-b px-5 sm:px-8">
                     <div className="flex min-w-0 flex-1 items-center gap-3">
-                        <BrandMark compact className="shrink-0 lg:hidden" />
+                        <SidebarTrigger />
+                        <BrandMark compact className="shrink-0 md:hidden" />
                         <div className="relative w-full max-w-sm">
                             <Search className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
                             <Input
@@ -31,9 +34,9 @@ export function WorkspaceHome() {
                     </div>
                     <div className="ml-4 flex items-center gap-3">
                         <CreateDiagramButton className="hidden sm:inline-flex" />
-                        <div className="flex size-8 items-center justify-center rounded-full bg-foreground text-xs font-semibold text-background">
-                            AR
-                        </div>
+                        <Avatar className="size-8">
+                            <AvatarFallback>AR</AvatarFallback>
+                        </Avatar>
                     </div>
                 </header>
 
@@ -125,7 +128,7 @@ export function WorkspaceHome() {
                         <RecentDiagrams />
                     </section>
                 </div>
-            </div>
-        </main>
+            </SidebarInset>
+        </SidebarProvider>
     );
 }

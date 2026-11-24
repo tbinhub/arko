@@ -10,6 +10,13 @@ import {
     subscribeToLocalDocuments,
 } from "@/features/diagram/lib/document-repository";
 import { DiagramPreview } from "./diagram-preview";
+import {
+    Empty,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+} from "@/components/ui/empty";
 
 type DocumentSummary = {
     id: string;
@@ -42,15 +49,17 @@ export function RecentDiagrams() {
 
     if (documents.length === 0) {
         return (
-            <div className="flex min-h-44 flex-col items-center justify-center rounded-xl border border-dashed bg-muted/20 px-6 text-center">
-                <span className="flex size-9 items-center justify-center rounded-lg border bg-background text-muted-foreground shadow-xs">
-                    <FilePlus2 className="size-4" />
-                </span>
-                <p className="mt-3 text-sm font-medium">No diagrams yet</p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                    Choose a template above to create your first system.
-                </p>
-            </div>
+            <Empty className="min-h-44 border bg-muted/20">
+                <EmptyHeader>
+                    <EmptyMedia variant="icon">
+                        <FilePlus2 />
+                    </EmptyMedia>
+                    <EmptyTitle>No diagrams yet</EmptyTitle>
+                    <EmptyDescription>
+                        Choose a template above to create your first system.
+                    </EmptyDescription>
+                </EmptyHeader>
+            </Empty>
         );
     }
 
