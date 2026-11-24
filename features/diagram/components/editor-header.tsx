@@ -1,17 +1,32 @@
 "use client";
 
 import Link from "next/link";
-import { Download, LayoutDashboard, LoaderCircle, Redo2, Undo2 } from "lucide-react";
+import {
+    Download,
+    FileJson,
+    ImageIcon,
+    LayoutDashboard,
+    LoaderCircle,
+    Redo2,
+    Undo2,
+} from "lucide-react";
 import { useState } from "react";
 import { useReactFlow } from "@xyflow/react";
 import { BrandMark } from "@/components/brand-mark";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useDiagramStore } from "@/features/diagram/store/diagram-store-provider";
 import { downloadDiagram } from "@/features/diagram/lib/export-document";
 import { layoutDiagram } from "@/features/diagram/lib/auto-layout";
 import type { ArchitectureEdge, ArchitectureNode } from "@/features/diagram/model/types";
+import { downloadDiagramPng } from "@/features/diagram/lib/export-image";
 
 export function EditorHeader() {
     const title = useDiagramStore((state) => state.document.title);
@@ -23,6 +38,7 @@ export function EditorHeader() {
     const document = useDiagramStore((state) => state.document);
     const setNodePositions = useDiagramStore((state) => state.setNodePositions);
     const [isArranging, setIsArranging] = useState(false);
+    const [isExportingImage, setIsExportingImage] = useState(false);
     const { fitView } = useReactFlow<ArchitectureNode, ArchitectureEdge>();
 
     async function arrangeDiagram() {
@@ -38,16 +54,19 @@ export function EditorHeader() {
         }
     }
 
+    async function exportImage() {
+        setIsExportingImage(true);
+        try {
+            await downloadDiagramPng(document.nodes, document.title);
+        } finally {
+            setIsExportingImage(false);
+        }
+    }
+
     return (
         <header className="flex h-14 shrink-0 items-center border-b bg-background px-3">
             <div className="flex min-w-0 flex-1 items-center gap-2">
-                <Link
-                    href="/"
-                    aria-label="Arko workspace"
-                    className="rounded-lg p-1 hover:bg-muted"
-                >
-                    <BrandMark compact />
-                </Link>
+                <BrandMark compact className="p-1 hover:bg-muted" />
                 <div className="mx-1 h-5 w-px bg-border" />
                 <Input
                     value={title}
@@ -110,15 +129,33 @@ export function EditorHeader() {
                     </TooltipTrigger>
                     <TooltipContent>Auto arrange</TooltipContent>
                 </Tooltip>
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => downloadDiagram(document)}
-                    className="hidden sm:inline-flex"
-                >
-                    <Download />
-                    Export
-                </Button>
+                <DropdownMenu>
+                    <DropdownMenuTrigger
+                        render={
+                            <Button variant="outline" size="sm" className="hidden sm:inline-flex" />
+                        }
+                    >
+                        {isExportingImage ? (
+                            <LoaderCircle className="animate-spin" />
+                        ) : (
+                            <Download />
+                        )}
+                        Export
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                        <DropdownMenuItem onClick={() => downloadDiagram(document)}>
+                            <FileJson />
+                            Arko JSON
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                            disabled={document.nodes.length === 0 || isExportingImage}
+                            onClick={exportImage}
+                        >
+                            <ImageIcon />
+                            PNG image
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
                 <Link href="/" className={buttonVariants({ size: "sm" })}>
                     Done
                 </Link>

@@ -50,12 +50,27 @@ test("serves discovery metadata and a custom not-found page", async ({ page, req
     await expect(page.getByRole("heading", { name: "Not Found" })).toBeVisible();
 });
 
-test("opens an interactive architecture template", async ({ page }) => {
+test("opens an interactive architecture template", async ({ page, browserName }) => {
     await page.goto("/editor/e2e-preview?template=web-application");
 
     await expect(page.getByLabel("Diagram title")).toHaveValue("Web application");
     await expect(page.locator(".react-flow__node")).toHaveCount(5);
     await expect(page.getByText("Application service", { exact: true })).toBeVisible();
+
+    await page.getByRole("button", { name: "Export" }).click();
+    await expect(page.getByRole("menuitem", { name: "Arko JSON" })).toBeVisible();
+    const jsonDownloadPromise = page.waitForEvent("download");
+    await page.getByRole("menuitem", { name: "Arko JSON" }).click();
+    const jsonDownload = await jsonDownloadPromise;
+    expect(jsonDownload.suggestedFilename()).toBe("web-application.arko.json");
+
+    if (browserName === "chromium") {
+        await page.getByRole("button", { name: "Export" }).click();
+        const imageDownloadPromise = page.waitForEvent("download", { timeout: 15_000 });
+        await page.getByRole("menuitem", { name: "PNG image" }).click();
+        const imageDownload = await imageDownloadPromise;
+        expect(imageDownload.suggestedFilename()).toBe("web-application.png");
+    }
 });
 
 test("restores locally saved diagram changes", async ({ page }) => {
