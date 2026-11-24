@@ -26,6 +26,22 @@ close to the action they affect, and domain-specific defaults replace generic dr
 6. **Progressive capability.** Large optional tools such as auto-layout and export are loaded only
    when invoked.
 
+## UI composition policy
+
+Arko is shadcn-first. Product screens should be composed from the checked-in shadcn/Base UI
+primitives in `components/ui` before introducing feature-specific markup.
+
+- Use official shadcn blocks as composition references for application shells such as the
+  workspace sidebar.
+- Use shadcn primitives for controls, forms, overlays, feedback, loading, empty states, scrolling,
+  cards, and navigation.
+- Keep feature components responsible for product behavior and composition, not for rebuilding
+  generic UI primitives.
+- Custom visual implementations are reserved for domain-specific surfaces that shadcn does not
+  provide, such as React Flow nodes, edges, canvas controls, and diagram previews.
+- Add or refresh primitives through `npx shadcn@latest add <component>`, then run the full quality
+  suite because generated Base UI APIs can evolve.
+
 ## Route topology
 
 ```text
