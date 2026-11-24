@@ -42,8 +42,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
     return (
-        <html lang="en" className={cn(geistSans.variable, geistMono.variable)}>
-            <body suppressHydrationWarning>
+        <html
+            lang="en"
+            className={cn(geistSans.variable, geistMono.variable)}
+            suppressHydrationWarning
+        >
+            <body>
                 <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
                     <TooltipProvider>{children}</TooltipProvider>
                     <Toaster position="bottom-right" />
