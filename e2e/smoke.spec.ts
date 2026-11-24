@@ -99,3 +99,14 @@ test("restores locally saved diagram changes", async ({ page }) => {
     await page.getByRole("link", { name: "Done" }).click();
     await expect(page.getByText("Resilient commerce platform", { exact: true })).toBeVisible();
 });
+
+test("keeps the editor usable on a mobile viewport", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(`/editor/mobile-${Date.now()}?template=blank`);
+
+    await expect(page.getByRole("button", { name: "Add component" })).toBeVisible();
+    await expect(page.getByPlaceholder("Search components")).toBeHidden();
+    await page.getByRole("button", { name: "Add component" }).click();
+    await page.getByRole("menuitem", { name: "Service", exact: true }).click();
+    await expect(page.locator(".react-flow__node")).toHaveCount(1);
+});

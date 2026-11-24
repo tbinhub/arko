@@ -28,6 +28,7 @@ import { downloadDiagram, parseDiagram } from "@/features/diagram/lib/export-doc
 import { layoutDiagram } from "@/features/diagram/lib/auto-layout";
 import type { ArchitectureEdge, ArchitectureNode } from "@/features/diagram/model/types";
 import { downloadDiagramPng } from "@/features/diagram/lib/export-image";
+import { MobileNodeMenu } from "./mobile-node-menu";
 
 export function EditorHeader() {
     const title = useDiagramStore((state) => state.document.title);
@@ -89,42 +90,45 @@ export function EditorHeader() {
                     value={title}
                     onInput={(event) => setTitle(event.currentTarget.value)}
                     aria-label="Diagram title"
-                    className="h-8 max-w-56 border-transparent bg-transparent px-2 font-medium shadow-none hover:border-border focus-visible:border-border"
+                    className="hidden h-8 max-w-56 border-transparent bg-transparent px-2 font-medium shadow-none hover:border-border focus-visible:border-border sm:block"
                 />
             </div>
             <div className="flex items-center gap-1">
-                <Tooltip>
-                    <TooltipTrigger
-                        render={
-                            <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                disabled={!canUndo}
-                                onClick={undo}
-                            />
-                        }
-                    >
-                        <Undo2 />
-                        <span className="sr-only">Undo</span>
-                    </TooltipTrigger>
-                    <TooltipContent>Undo</TooltipContent>
-                </Tooltip>
-                <Tooltip>
-                    <TooltipTrigger
-                        render={
-                            <Button
-                                variant="ghost"
-                                size="icon-sm"
-                                disabled={!canRedo}
-                                onClick={redo}
-                            />
-                        }
-                    >
-                        <Redo2 />
-                        <span className="sr-only">Redo</span>
-                    </TooltipTrigger>
-                    <TooltipContent>Redo</TooltipContent>
-                </Tooltip>
+                <MobileNodeMenu />
+                <div className="hidden items-center gap-1 sm:flex">
+                    <Tooltip>
+                        <TooltipTrigger
+                            render={
+                                <Button
+                                    variant="ghost"
+                                    size="icon-sm"
+                                    disabled={!canUndo}
+                                    onClick={undo}
+                                />
+                            }
+                        >
+                            <Undo2 />
+                            <span className="sr-only">Undo</span>
+                        </TooltipTrigger>
+                        <TooltipContent>Undo</TooltipContent>
+                    </Tooltip>
+                    <Tooltip>
+                        <TooltipTrigger
+                            render={
+                                <Button
+                                    variant="ghost"
+                                    size="icon-sm"
+                                    disabled={!canRedo}
+                                    onClick={redo}
+                                />
+                            }
+                        >
+                            <Redo2 />
+                            <span className="sr-only">Redo</span>
+                        </TooltipTrigger>
+                        <TooltipContent>Redo</TooltipContent>
+                    </Tooltip>
+                </div>
                 <div className="mx-2 h-5 w-px bg-border" />
                 <Tooltip>
                     <TooltipTrigger
@@ -132,6 +136,7 @@ export function EditorHeader() {
                             <Button
                                 variant="ghost"
                                 size="icon-sm"
+                                className="hidden sm:inline-flex"
                                 disabled={isArranging || document.nodes.length === 0}
                                 onClick={arrangeDiagram}
                             />

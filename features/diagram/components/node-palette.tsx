@@ -29,7 +29,7 @@ export function NodePalette() {
     }
 
     return (
-        <aside className="flex w-64 shrink-0 flex-col border-r bg-background">
+        <aside className="hidden w-64 shrink-0 flex-col border-r bg-background md:flex">
             <div className="border-b p-3">
                 <p className="px-1 text-xs font-semibold tracking-wide text-muted-foreground uppercase">
                     Components
