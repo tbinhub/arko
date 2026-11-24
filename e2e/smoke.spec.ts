@@ -49,3 +49,11 @@ test("serves discovery metadata and a custom not-found page", async ({ page, req
     expect(notFoundResponse?.status()).toBe(404);
     await expect(page.getByRole("heading", { name: "Not Found" })).toBeVisible();
 });
+
+test("opens an interactive architecture template", async ({ page }) => {
+    await page.goto("/editor/e2e-preview?template=web-application");
+
+    await expect(page.getByLabel("Diagram title")).toHaveValue("Web application");
+    await expect(page.locator(".react-flow__node")).toHaveCount(5);
+    await expect(page.getByText("Application service", { exact: true })).toBeVisible();
+});
