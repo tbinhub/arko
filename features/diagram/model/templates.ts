@@ -35,7 +35,7 @@ function edge(
         id,
         source,
         target,
-        type: "smoothstep",
+        type: "architecture",
         data: { label, protocol, animated: false },
     };
 }

@@ -56,11 +56,18 @@ test("opens an interactive architecture template", async ({ page, browserName })
     await expect(page.getByLabel("Diagram title")).toHaveValue("Web application");
     await expect(page.locator(".react-flow__node")).toHaveCount(5);
     await expect(page.getByText("Application service", { exact: true })).toBeVisible();
+    await expect(page.getByText("read", { exact: true })).toBeVisible();
+
+    await page.locator(".react-flow__edge-interaction").first().dispatchEvent("click");
+    const flowSwitch = page.getByRole("switch", { name: "Animate data flow" });
+    await expect(flowSwitch).toBeVisible();
+    await flowSwitch.click();
+    await expect(page.locator(".arko-edge-flow")).toHaveCount(1);
 
     await page.getByRole("button", { name: "Export" }).click();
-    await expect(page.getByRole("menuitem", { name: "Arko JSON" })).toBeVisible();
+    await expect(page.getByRole("menuitem", { name: "Arko JSON", exact: true })).toBeVisible();
     const jsonDownloadPromise = page.waitForEvent("download");
-    await page.getByRole("menuitem", { name: "Arko JSON" }).click();
+    await page.getByRole("menuitem", { name: "Arko JSON", exact: true }).click();
     const jsonDownload = await jsonDownloadPromise;
     expect(jsonDownload.suggestedFilename()).toBe("web-application.arko.json");
 

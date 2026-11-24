@@ -11,6 +11,7 @@ import {
     SelectionMode,
     useReactFlow,
     type NodeTypes,
+    type EdgeTypes,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useCallback } from "react";
@@ -23,9 +24,11 @@ import type {
 import { architectureNodeKinds } from "@/features/diagram/model/types";
 import { useDiagramStore } from "@/features/diagram/store/diagram-store-provider";
 import { ArchitectureNodeComponent } from "./architecture-node";
+import { ArchitectureEdgeComponent } from "./architecture-edge";
 import { dragType } from "./node-palette";
 
 const nodeTypes: NodeTypes = { architecture: ArchitectureNodeComponent };
+const edgeTypes: EdgeTypes = { architecture: ArchitectureEdgeComponent };
 const architectureKinds = new Set<string>(architectureNodeKinds);
 
 export function DiagramCanvas() {
@@ -64,6 +67,7 @@ export function DiagramCanvas() {
                 nodes={nodes}
                 edges={edges}
                 nodeTypes={nodeTypes}
+                edgeTypes={edgeTypes}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={connect}
@@ -86,7 +90,7 @@ export function DiagramCanvas() {
                 minZoom={0.2}
                 maxZoom={2}
                 defaultEdgeOptions={{
-                    type: "smoothstep",
+                    type: "architecture",
                     markerEnd: { type: MarkerType.ArrowClosed, width: 16, height: 16 },
                     style: { strokeWidth: 1.5 },
                 }}

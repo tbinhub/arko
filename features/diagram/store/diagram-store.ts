@@ -22,6 +22,7 @@ type DiagramEditorState = {
     connect: (connection: Connection) => void;
     addNode: (kind: ArchitectureNodeKind, position: XYPosition) => string;
     updateNode: (nodeId: string, patch: Partial<ArchitectureNode["data"]>) => void;
+    updateEdge: (edgeId: string, patch: Partial<ArchitectureEdge["data"]>) => void;
     setSelection: (nodeIds: string[], edgeIds: string[]) => void;
     deleteSelection: () => void;
     beginTransaction: () => void;
@@ -97,7 +98,7 @@ export function createDiagramStore(initialDocument: DiagramDocument) {
                             target: connection.target,
                             sourceHandle: connection.sourceHandle,
                             targetHandle: connection.targetHandle,
-                            type: "smoothstep",
+                            type: "architecture",
                             data: { label: "", protocol: "HTTPS", animated: false },
                         },
                     ],
@@ -147,6 +148,32 @@ export function createDiagramStore(initialDocument: DiagramDocument) {
                         node.id === nodeId ? { ...node, data: { ...node.data, ...patch } } : node,
                     ),
                     edges: state.document.edges,
+                }),
+            }));
+        },
+
+        updateEdge: (edgeId, patch) => {
+            const edgeExists = get().document.edges.some((edge) => edge.id === edgeId);
+            if (!edgeExists) return;
+
+            get().beginTransaction();
+            set((state) => ({
+                document: withGraph(state.document, {
+                    nodes: state.document.nodes,
+                    edges: state.document.edges.map((edge) =>
+                        edge.id === edgeId
+                            ? {
+                                  ...edge,
+                                  data: {
+                                      label: "",
+                                      protocol: "HTTPS",
+                                      animated: false,
+                                      ...edge.data,
+                                      ...patch,
+                                  },
+                              }
+                            : edge,
+                    ),
                 }),
             }));
         },

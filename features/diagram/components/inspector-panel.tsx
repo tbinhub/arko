@@ -21,7 +21,12 @@ export function InspectorPanel() {
     const node = useDiagramStore((state) =>
         state.document.nodes.find((item) => item.id === state.selectedNodeIds[0]),
     );
+    const selectedEdgeIds = useDiagramStore((state) => state.selectedEdgeIds);
+    const edge = useDiagramStore((state) =>
+        state.document.edges.find((item) => item.id === state.selectedEdgeIds[0]),
+    );
     const updateNode = useDiagramStore((state) => state.updateNode);
+    const updateEdge = useDiagramStore((state) => state.updateEdge);
     const deleteSelection = useDiagramStore((state) => state.deleteSelection);
 
     return (
@@ -31,7 +36,63 @@ export function InspectorPanel() {
                     Inspector
                 </p>
             </div>
-            {!node || selectedNodeIds.length !== 1 ? (
+            {edge && selectedEdgeIds.length === 1 && selectedNodeIds.length === 0 ? (
+                <div className="space-y-5 p-4">
+                    <label className="block space-y-1.5">
+                        <span className="text-xs font-medium">Flow label</span>
+                        <Input
+                            key={`${edge.id}-label`}
+                            defaultValue={edge.data?.label}
+                            placeholder="e.g. request, publish"
+                            onBlur={(event) => {
+                                const label = event.target.value.trim();
+                                if (label !== edge.data?.label) updateEdge(edge.id, { label });
+                            }}
+                            className="h-8 text-xs"
+                        />
+                    </label>
+                    <label className="block space-y-1.5">
+                        <span className="text-xs font-medium">Protocol</span>
+                        <Input
+                            key={`${edge.id}-protocol`}
+                            defaultValue={edge.data?.protocol}
+                            placeholder="HTTPS"
+                            onBlur={(event) => {
+                                const protocol = event.target.value.trim();
+                                if (protocol !== edge.data?.protocol)
+                                    updateEdge(edge.id, { protocol });
+                            }}
+                            className="h-8 text-xs"
+                        />
+                    </label>
+                    <button
+                        type="button"
+                        role="switch"
+                        aria-checked={edge.data?.animated ?? false}
+                        onClick={() => updateEdge(edge.id, { animated: !edge.data?.animated })}
+                        className="flex w-full items-center justify-between rounded-lg border px-3 py-2 text-xs font-medium hover:bg-muted"
+                    >
+                        Animate data flow
+                        <span
+                            className={cn(
+                                "relative h-5 w-9 rounded-full bg-muted-foreground/25 transition-colors after:absolute after:top-0.5 after:left-0.5 after:size-4 after:rounded-full after:bg-background after:shadow-sm after:transition-transform",
+                                edge.data?.animated && "bg-primary after:translate-x-4",
+                            )}
+                        />
+                    </button>
+                    <div className="border-t pt-4">
+                        <Button
+                            variant="destructive"
+                            size="sm"
+                            onClick={deleteSelection}
+                            className="w-full"
+                        >
+                            <Trash2 />
+                            Delete connection
+                        </Button>
+                    </div>
+                </div>
+            ) : !node || selectedNodeIds.length !== 1 ? (
                 <div className="flex flex-1 items-center justify-center p-6 text-center">
                     <p className="max-w-44 text-xs leading-5 text-muted-foreground">
                         Select a component to edit its name, description, and appearance.

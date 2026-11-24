@@ -32,7 +32,7 @@ export type ArchitectureEdgeData = {
     animated: boolean;
 };
 
-export type ArchitectureEdge = Edge<ArchitectureEdgeData, "smoothstep">;
+export type ArchitectureEdge = Edge<ArchitectureEdgeData, "architecture">;
 
 export type DiagramDocument = {
     schemaVersion: typeof diagramSchemaVersion;

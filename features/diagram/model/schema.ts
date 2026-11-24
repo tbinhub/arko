@@ -22,7 +22,9 @@ const edgeSchema = z.object({
     target: z.string().min(1),
     sourceHandle: z.string().nullable().optional(),
     targetHandle: z.string().nullable().optional(),
-    type: z.literal("smoothstep"),
+    type: z
+        .union([z.literal("architecture"), z.literal("smoothstep")])
+        .transform(() => "architecture" as const),
     data: z.object({
         label: z.string(),
         protocol: z.string(),

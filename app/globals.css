@@ -1,12 +1,28 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
 html,
 body {
     min-height: 100%;
+}
+
+@keyframes arko-edge-flow {
+    to {
+        stroke-dashoffset: -26;
+    }
+}
+
+.arko-edge-flow {
+    stroke-dasharray: 8 5;
+    animation: arko-edge-flow 1s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .arko-edge-flow {
+        animation: none;
+    }
 }
 
 @theme inline {
