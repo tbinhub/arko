@@ -28,6 +28,7 @@ type DiagramEditorState = {
     setTitle: (title: string) => void;
     setViewport: (viewport: Viewport) => void;
     loadDocument: (document: DiagramDocument) => void;
+    setNodePositions: (positions: { id: string; position: XYPosition }[]) => void;
     undo: () => void;
     redo: () => void;
 };
@@ -204,6 +205,21 @@ export function createDiagramStore(initialDocument: DiagramDocument) {
                 past: [],
                 future: [],
             });
+        },
+
+        setNodePositions: (positions) => {
+            if (positions.length === 0) return;
+            get().beginTransaction();
+            const positionsById = new Map(positions.map((item) => [item.id, item.position]));
+            set((state) => ({
+                document: withGraph(state.document, {
+                    nodes: state.document.nodes.map((node) => ({
+                        ...node,
+                        position: positionsById.get(node.id) ?? node.position,
+                    })),
+                    edges: state.document.edges,
+                }),
+            }));
         },
 
         undo: () => {
