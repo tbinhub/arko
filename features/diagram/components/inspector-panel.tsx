@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Field, FieldLabel } from "@/components/ui/field";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia } from "@/components/ui/empty";
@@ -90,7 +91,8 @@ export function InspectorPanel() {
                                 aria-label="Animate data flow"
                             />
                         </Field>
-                        <div className="border-t pt-4">
+                        <div className="space-y-4">
+                            <Separator />
                             <Button
                                 variant="destructive"
                                 size="sm"
@@ -168,7 +170,8 @@ export function InspectorPanel() {
                                 ))}
                             </ToggleGroup>
                         </div>
-                        <div className="border-t pt-4">
+                        <div className="space-y-4">
+                            <Separator />
                             <Button
                                 variant="destructive"
                                 size="sm"

@@ -2,6 +2,7 @@
 
 import { BaseEdge, EdgeLabelRenderer, getSmoothStepPath, type EdgeProps } from "@xyflow/react";
 import { memo } from "react";
+import { Badge } from "@/components/ui/badge";
 import type { ArchitectureEdge } from "@/features/diagram/model/types";
 
 export const ArchitectureEdgeComponent = memo(function ArchitectureEdgeComponent({
@@ -40,14 +41,15 @@ export const ArchitectureEdgeComponent = memo(function ArchitectureEdgeComponent
             />
             {(data?.label || data?.protocol) && (
                 <EdgeLabelRenderer>
-                    <div
-                        className="nodrag nopan pointer-events-none absolute rounded-md border bg-background/95 px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground shadow-xs backdrop-blur"
+                    <Badge
+                        variant="outline"
+                        className="nodrag nopan pointer-events-none absolute h-auto bg-background/95 px-1.5 py-0.5 text-[10px] text-muted-foreground shadow-xs backdrop-blur"
                         style={{
                             transform: `translate(-50%, -50%) translate(${labelX}px, ${labelY}px)`,
                         }}
                     >
                         {data.label || data.protocol}
-                    </div>
+                    </Badge>
                 </EdgeLabelRenderer>
             )}
         </>

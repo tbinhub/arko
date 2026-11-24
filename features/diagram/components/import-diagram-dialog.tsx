@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Field, FieldDescription, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { Item, ItemContent, ItemMedia, ItemTitle } from "@/components/ui/item";
 
 type ImportDiagramDialogProps = {
     open: boolean;
@@ -68,10 +69,14 @@ export function ImportDiagramDialog({ open, onOpenChange, onImport }: ImportDiag
                     </FieldDescription>
                 </Field>
                 {file && (
-                    <div className="flex items-center gap-2 rounded-lg border bg-muted/30 px-3 py-2 text-sm">
-                        <FileJson2 className="size-4 text-primary" />
-                        <span className="min-w-0 flex-1 truncate">{file.name}</span>
-                    </div>
+                    <Item variant="muted" size="sm">
+                        <ItemMedia variant="icon">
+                            <FileJson2 className="text-primary" />
+                        </ItemMedia>
+                        <ItemContent className="min-w-0">
+                            <ItemTitle>{file.name}</ItemTitle>
+                        </ItemContent>
+                    </Item>
                 )}
                 <DialogFooter>
                     <Button variant="outline" onClick={() => onOpenChange(false)}>
