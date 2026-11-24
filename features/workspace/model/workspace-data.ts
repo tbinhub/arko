@@ -40,39 +40,3 @@ export const workspaceTemplates: WorkspaceTemplate[] = [
         nodes: 6,
     },
 ];
-
-export type RecentDiagram = {
-    id: string;
-    name: string;
-    description: string;
-    updatedAt: string;
-    accent: WorkspaceTemplate["accent"];
-    nodeCount: number;
-};
-
-export const recentDiagrams: RecentDiagram[] = [
-    {
-        id: "commerce-platform",
-        name: "Commerce platform",
-        description: "Core request flow and service boundaries",
-        updatedAt: "12 minutes ago",
-        accent: "emerald",
-        nodeCount: 8,
-    },
-    {
-        id: "notification-pipeline",
-        name: "Notification pipeline",
-        description: "Event delivery and retry strategy",
-        updatedAt: "Yesterday",
-        accent: "blue",
-        nodeCount: 6,
-    },
-    {
-        id: "analytics-workflow",
-        name: "Analytics workflow",
-        description: "Streaming ingestion and warehouse sync",
-        updatedAt: "3 days ago",
-        accent: "violet",
-        nodeCount: 7,
-    },
-];

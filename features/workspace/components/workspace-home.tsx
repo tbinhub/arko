@@ -1,6 +1,5 @@
-import type { Route } from "next";
 import Link from "next/link";
-import { ArrowRight, Clock3, MoreHorizontal, Search } from "lucide-react";
+import { ArrowRight, Search } from "lucide-react";
 import { BrandMark } from "@/components/brand-mark";
 import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
@@ -10,7 +9,8 @@ import { cn } from "@/lib/utils";
 import { CreateDiagramButton } from "@/features/workspace/components/create-diagram-button";
 import { DiagramPreview } from "@/features/workspace/components/diagram-preview";
 import { WorkspaceSidebar } from "@/features/workspace/components/workspace-sidebar";
-import { recentDiagrams, workspaceTemplates } from "@/features/workspace/model/workspace-data";
+import { workspaceTemplates } from "@/features/workspace/model/workspace-data";
+import { RecentDiagrams } from "@/features/workspace/components/recent-diagrams";
 
 export function WorkspaceHome() {
     return (
@@ -122,42 +122,7 @@ export function WorkspaceHome() {
                                 Pick up where you left off.
                             </p>
                         </div>
-                        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                            {recentDiagrams.map((diagram) => (
-                                <Link
-                                    key={diagram.id}
-                                    href={`/editor/${diagram.id}` as Route}
-                                    className="group outline-none"
-                                >
-                                    <Card className="gap-0 py-0 transition group-hover:-translate-y-0.5 group-hover:shadow-md group-focus-visible:ring-3 group-focus-visible:ring-ring/50">
-                                        <div className="h-44 border-b">
-                                            <DiagramPreview
-                                                accent={diagram.accent}
-                                                density="dense"
-                                            />
-                                        </div>
-                                        <CardHeader className="pt-4 pb-2">
-                                            <CardTitle className="flex items-center justify-between gap-3">
-                                                <span>{diagram.name}</span>
-                                                <MoreHorizontal className="size-4 text-muted-foreground" />
-                                            </CardTitle>
-                                        </CardHeader>
-                                        <CardContent className="pb-4">
-                                            <p className="text-xs text-muted-foreground">
-                                                {diagram.description}
-                                            </p>
-                                            <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
-                                                <span className="flex items-center gap-1.5">
-                                                    <Clock3 className="size-3.5" />
-                                                    {diagram.updatedAt}
-                                                </span>
-                                                <span>{diagram.nodeCount} nodes</span>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
-                                </Link>
-                            ))}
-                        </div>
+                        <RecentDiagrams />
                     </section>
                 </div>
             </div>

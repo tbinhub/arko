@@ -74,4 +74,6 @@ test("restores locally saved diagram changes", async ({ page }) => {
     await page.reload();
 
     await expect(title).toHaveValue("Resilient commerce platform");
+    await page.getByRole("link", { name: "Done" }).click();
+    await expect(page.getByText("Resilient commerce platform", { exact: true })).toBeVisible();
 });
