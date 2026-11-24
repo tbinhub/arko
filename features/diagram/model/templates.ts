@@ -1,0 +1,292 @@
+import type {
+    ArchitectureEdge,
+    ArchitectureNode,
+    DiagramDocument,
+    DiagramTemplateId,
+} from "./types";
+import { diagramSchemaVersion } from "./types";
+
+function node(
+    id: string,
+    kind: ArchitectureNode["data"]["kind"],
+    label: string,
+    x: number,
+    y: number,
+    accent: ArchitectureNode["data"]["accent"],
+    icon: string,
+    description: string,
+): ArchitectureNode {
+    return {
+        id,
+        type: "architecture",
+        position: { x, y },
+        data: { kind, label, accent, icon, description },
+    };
+}
+
+function edge(
+    id: string,
+    source: string,
+    target: string,
+    label = "",
+    protocol = "HTTPS",
+): ArchitectureEdge {
+    return {
+        id,
+        source,
+        target,
+        type: "smoothstep",
+        data: { label, protocol, animated: false },
+    };
+}
+
+const templateGraphs: Record<
+    DiagramTemplateId,
+    Pick<DiagramDocument, "title" | "description" | "nodes" | "edges">
+> = {
+    blank: {
+        title: "Untitled diagram",
+        description: "",
+        nodes: [],
+        edges: [],
+    },
+    "web-application": {
+        title: "Web application",
+        description: "A common web application request path.",
+        nodes: [
+            node(
+                "client",
+                "client",
+                "Web client",
+                40,
+                180,
+                "blue",
+                "monitor-smartphone",
+                "Browser application",
+            ),
+            node(
+                "gateway",
+                "gateway",
+                "API gateway",
+                300,
+                180,
+                "violet",
+                "waypoints",
+                "Public API boundary",
+            ),
+            node(
+                "service",
+                "service",
+                "Application service",
+                560,
+                180,
+                "emerald",
+                "box",
+                "Core business logic",
+            ),
+            node(
+                "cache",
+                "cache",
+                "Redis cache",
+                820,
+                80,
+                "rose",
+                "memory-stick",
+                "Low-latency reads",
+            ),
+            node(
+                "database",
+                "database",
+                "PostgreSQL",
+                820,
+                280,
+                "blue",
+                "database",
+                "Primary persistence",
+            ),
+        ],
+        edges: [
+            edge("client-gateway", "client", "gateway"),
+            edge("gateway-service", "gateway", "service"),
+            edge("service-cache", "service", "cache", "read", "TCP"),
+            edge("service-database", "service", "database", "query", "SQL"),
+        ],
+    },
+    microservices: {
+        title: "Microservices platform",
+        description: "Gateway, independently deployable services, messaging, and isolated data.",
+        nodes: [
+            node(
+                "client",
+                "client",
+                "Client",
+                20,
+                200,
+                "blue",
+                "monitor-smartphone",
+                "Consumer application",
+            ),
+            node(
+                "gateway",
+                "gateway",
+                "API gateway",
+                240,
+                200,
+                "violet",
+                "waypoints",
+                "Public API boundary",
+            ),
+            node(
+                "identity",
+                "service",
+                "Identity service",
+                500,
+                70,
+                "emerald",
+                "box",
+                "Authentication and profiles",
+            ),
+            node(
+                "orders",
+                "service",
+                "Order service",
+                500,
+                230,
+                "emerald",
+                "box",
+                "Order lifecycle",
+            ),
+            node(
+                "queue",
+                "queue",
+                "Event bus",
+                760,
+                230,
+                "amber",
+                "list-tree",
+                "Domain event delivery",
+            ),
+            node(
+                "users-db",
+                "database",
+                "Users DB",
+                760,
+                60,
+                "blue",
+                "database",
+                "Identity persistence",
+            ),
+            node(
+                "orders-db",
+                "database",
+                "Orders DB",
+                1020,
+                300,
+                "blue",
+                "database",
+                "Order persistence",
+            ),
+        ],
+        edges: [
+            edge("client-gateway", "client", "gateway"),
+            edge("gateway-identity", "gateway", "identity"),
+            edge("gateway-orders", "gateway", "orders"),
+            edge("identity-users", "identity", "users-db", "query", "SQL"),
+            edge("orders-queue", "orders", "queue", "publish", "AMQP"),
+            edge("orders-db-edge", "orders", "orders-db", "query", "SQL"),
+        ],
+    },
+    "event-driven": {
+        title: "Event-driven system",
+        description: "Producers and consumers connected through an event backbone.",
+        nodes: [
+            node(
+                "producer-a",
+                "service",
+                "Order service",
+                80,
+                80,
+                "emerald",
+                "box",
+                "Produces order events",
+            ),
+            node(
+                "producer-b",
+                "service",
+                "Billing service",
+                80,
+                300,
+                "emerald",
+                "box",
+                "Produces payment events",
+            ),
+            node(
+                "event-bus",
+                "queue",
+                "Event bus",
+                400,
+                190,
+                "amber",
+                "list-tree",
+                "Durable event stream",
+            ),
+            node(
+                "consumer-a",
+                "service",
+                "Fulfillment",
+                740,
+                60,
+                "violet",
+                "box",
+                "Consumes order events",
+            ),
+            node(
+                "consumer-b",
+                "service",
+                "Notifications",
+                740,
+                220,
+                "blue",
+                "box",
+                "Delivers user messages",
+            ),
+            node(
+                "warehouse",
+                "database",
+                "Data warehouse",
+                740,
+                380,
+                "blue",
+                "database",
+                "Analytics destination",
+            ),
+        ],
+        edges: [
+            edge("producer-a-bus", "producer-a", "event-bus", "publish", "Kafka"),
+            edge("producer-b-bus", "producer-b", "event-bus", "publish", "Kafka"),
+            edge("bus-consumer-a", "event-bus", "consumer-a", "consume", "Kafka"),
+            edge("bus-consumer-b", "event-bus", "consumer-b", "consume", "Kafka"),
+            edge("bus-warehouse", "event-bus", "warehouse", "sink", "Kafka"),
+        ],
+    },
+};
+
+export function createDiagramDocument(
+    id: string,
+    templateId: DiagramTemplateId = "blank",
+): DiagramDocument {
+    const template = templateGraphs[templateId];
+    const timestamp = new Date().toISOString();
+
+    return {
+        schemaVersion: diagramSchemaVersion,
+        id,
+        title: template.title,
+        description: template.description,
+        createdAt: timestamp,
+        updatedAt: timestamp,
+        viewport: { x: 0, y: 0, zoom: 1 },
+        nodes: structuredClone(template.nodes),
+        edges: structuredClone(template.edges),
+    };
+}
