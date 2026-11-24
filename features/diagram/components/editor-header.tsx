@@ -7,6 +7,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useDiagramStore } from "@/features/diagram/store/diagram-store-provider";
+import { downloadDiagram } from "@/features/diagram/lib/export-document";
 
 export function EditorHeader() {
     const title = useDiagramStore((state) => state.document.title);
@@ -15,6 +16,7 @@ export function EditorHeader() {
     const redo = useDiagramStore((state) => state.redo);
     const canUndo = useDiagramStore((state) => state.past.length > 0);
     const canRedo = useDiagramStore((state) => state.future.length > 0);
+    const document = useDiagramStore((state) => state.document);
 
     return (
         <header className="flex h-14 shrink-0 items-center border-b bg-background px-3">
@@ -68,7 +70,12 @@ export function EditorHeader() {
                     <TooltipContent>Redo</TooltipContent>
                 </Tooltip>
                 <div className="mx-2 h-5 w-px bg-border" />
-                <Button variant="outline" size="sm" disabled className="hidden sm:inline-flex">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => downloadDiagram(document)}
+                    className="hidden sm:inline-flex"
+                >
                     <Download />
                     Export
                 </Button>
