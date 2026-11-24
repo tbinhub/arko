@@ -25,6 +25,15 @@ import {
     LogOutIcon,
 } from "lucide-react";
 
+function UserAvatar({ src }: { src: string }) {
+    return (
+        <Avatar className="size-8 rounded-lg bg-background after:rounded-lg">
+            <AvatarImage src={src} alt="" className="rounded-lg object-contain p-1" />
+            <AvatarFallback className="rounded-lg bg-background">AR</AvatarFallback>
+        </Avatar>
+    );
+}
+
 export function NavUser({
     user,
 }: {
@@ -47,10 +56,7 @@ export function NavUser({
                             />
                         }
                     >
-                        <Avatar className="size-8 rounded-lg">
-                            <AvatarImage src={user.avatar} alt={user.name} />
-                            <AvatarFallback className="rounded-lg">AR</AvatarFallback>
-                        </Avatar>
+                        <UserAvatar src={user.avatar} />
                         <div className="grid flex-1 text-left text-sm leading-tight">
                             <span className="truncate font-medium">{user.name}</span>
                             <span className="truncate text-xs">{user.email}</span>
@@ -66,10 +72,7 @@ export function NavUser({
                         <DropdownMenuGroup>
                             <DropdownMenuLabel className="p-0 font-normal">
                                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                                    <Avatar className="size-8 rounded-lg">
-                                        <AvatarImage src={user.avatar} alt={user.name} />
-                                        <AvatarFallback className="rounded-lg">AR</AvatarFallback>
-                                    </Avatar>
+                                    <UserAvatar src={user.avatar} />
                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                         <span className="truncate font-medium">{user.name}</span>
                                         <span className="truncate text-xs">{user.email}</span>
