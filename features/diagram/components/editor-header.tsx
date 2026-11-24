@@ -11,7 +11,7 @@ import {
     Redo2,
     Undo2,
 } from "lucide-react";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useReactFlow } from "@xyflow/react";
 import { BrandMark } from "@/components/brand-mark";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -30,6 +30,8 @@ import type { ArchitectureEdge, ArchitectureNode } from "@/features/diagram/mode
 import { downloadDiagramPng } from "@/features/diagram/lib/export-image";
 import { MobileNodeMenu } from "./mobile-node-menu";
 import { Separator } from "@/components/ui/separator";
+import { ImportDiagramDialog } from "./import-diagram-dialog";
+import { toast } from "sonner";
 
 export function EditorHeader() {
     const title = useDiagramStore((state) => state.document.title);
@@ -43,8 +45,8 @@ export function EditorHeader() {
     const loadDocument = useDiagramStore((state) => state.loadDocument);
     const [isArranging, setIsArranging] = useState(false);
     const [isExportingImage, setIsExportingImage] = useState(false);
+    const [isImportOpen, setIsImportOpen] = useState(false);
     const { fitView } = useReactFlow<ArchitectureNode, ArchitectureEdge>();
-    const importInput = useRef<HTMLInputElement>(null);
 
     async function arrangeDiagram() {
         setIsArranging(true);
@@ -68,17 +70,17 @@ export function EditorHeader() {
         }
     }
 
-    async function importDocument(file: File | undefined) {
-        if (!file) return;
+    async function importDocument(file: File) {
         try {
             loadDocument(parseDiagram(await file.text(), document.id));
             window.requestAnimationFrame(
                 () => void fitView({ padding: 0.25, maxZoom: 1, duration: 300 }),
             );
+            toast.success("Diagram imported");
+            return true;
         } catch (error) {
-            window.alert(error instanceof Error ? error.message : "Unable to import this diagram.");
-        } finally {
-            if (importInput.current) importInput.current.value = "";
+            toast.error(error instanceof Error ? error.message : "Unable to import this diagram.");
+            return false;
         }
     }
 
@@ -177,19 +179,16 @@ export function EditorHeader() {
                             <ImageIcon />
                             PNG image
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => importInput.current?.click()}>
+                        <DropdownMenuItem onClick={() => setIsImportOpen(true)}>
                             <FileUp />
                             Import Arko JSON
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
-                <input
-                    ref={importInput}
-                    type="file"
-                    accept=".json,.arko.json,application/json"
-                    className="sr-only"
-                    aria-label="Import Arko JSON"
-                    onChange={(event) => void importDocument(event.target.files?.[0])}
+                <ImportDiagramDialog
+                    open={isImportOpen}
+                    onOpenChange={setIsImportOpen}
+                    onImport={importDocument}
                 />
                 <Link href="/" className={buttonVariants({ size: "sm" })}>
                     Done

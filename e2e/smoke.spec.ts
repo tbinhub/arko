@@ -81,6 +81,15 @@ test("opens an interactive architecture template", async ({ page, browserName })
     const jsonDownload = await jsonDownloadPromise;
     expect(jsonDownload.suggestedFilename()).toBe("web-application.arko.json");
 
+    await page.getByRole("button", { name: "Export" }).click();
+    await page.getByRole("menuitem", { name: "Import Arko JSON" }).click();
+    await expect(page.getByRole("dialog", { name: "Import an Arko diagram" })).toBeVisible();
+    const downloadedFile = await jsonDownload.path();
+    if (!downloadedFile) throw new Error("Expected the exported diagram file to exist");
+    await page.locator('input[type="file"]').setInputFiles(downloadedFile);
+    await page.getByRole("button", { name: "Import diagram" }).click();
+    await expect(page.getByText("Diagram imported")).toBeVisible();
+
     if (browserName === "chromium") {
         await page.getByRole("button", { name: "Export" }).click();
         const imageDownloadPromise = page.waitForEvent("download", { timeout: 15_000 });

@@ -4,6 +4,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { env } from "@/lib/env";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
     subsets: ["latin"],
@@ -41,8 +43,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
     return (
         <html lang="en" className={cn(geistSans.variable, geistMono.variable)}>
-            <body>
-                <TooltipProvider>{children}</TooltipProvider>
+            <body suppressHydrationWarning>
+                <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+                    <TooltipProvider>{children}</TooltipProvider>
+                    <Toaster position="bottom-right" />
+                </ThemeProvider>
             </body>
         </html>
     );
