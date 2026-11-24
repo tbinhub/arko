@@ -102,13 +102,13 @@ export function EditorHeader() {
                             render={
                                 <Button
                                     variant="ghost"
-                                    size="icon-sm"
+                                    size="icon"
                                     disabled={!canUndo}
                                     onClick={undo}
                                 />
                             }
                         >
-                            <Undo2 />
+                            <Undo2 className="size-4.5" />
                             <span className="sr-only">Undo</span>
                         </TooltipTrigger>
                         <TooltipContent>Undo</TooltipContent>
@@ -118,13 +118,13 @@ export function EditorHeader() {
                             render={
                                 <Button
                                     variant="ghost"
-                                    size="icon-sm"
+                                    size="icon"
                                     disabled={!canRedo}
                                     onClick={redo}
                                 />
                             }
                         >
-                            <Redo2 />
+                            <Redo2 className="size-4.5" />
                             <span className="sr-only">Redo</span>
                         </TooltipTrigger>
                         <TooltipContent>Redo</TooltipContent>
@@ -136,7 +136,7 @@ export function EditorHeader() {
                         render={
                             <Button
                                 variant="ghost"
-                                size="icon-sm"
+                                size="icon"
                                 className="hidden sm:inline-flex"
                                 disabled={isArranging || document.nodes.length === 0}
                                 onClick={arrangeDiagram}
@@ -144,9 +144,9 @@ export function EditorHeader() {
                         }
                     >
                         {isArranging ? (
-                            <LoaderCircle className="animate-spin" />
+                            <LoaderCircle className="size-4.5 animate-spin" />
                         ) : (
-                            <LayoutDashboard />
+                            <LayoutDashboard className="size-4.5" />
                         )}
                         <span className="sr-only">Auto arrange</span>
                     </TooltipTrigger>
@@ -155,13 +155,17 @@ export function EditorHeader() {
                 <DropdownMenu>
                     <DropdownMenuTrigger
                         render={
-                            <Button variant="outline" size="sm" className="hidden sm:inline-flex" />
+                            <Button
+                                variant="outline"
+                                size="default"
+                                className="hidden sm:inline-flex"
+                            />
                         }
                     >
                         {isExportingImage ? (
-                            <LoaderCircle className="animate-spin" />
+                            <LoaderCircle className="size-4.5 animate-spin" />
                         ) : (
-                            <Download />
+                            <Download className="size-4.5" />
                         )}
                         Export
                     </DropdownMenuTrigger>
@@ -188,7 +192,7 @@ export function EditorHeader() {
                     onOpenChange={setIsImportOpen}
                     onImport={importDocument}
                 />
-                <Link href="/" className={buttonVariants({ size: "sm" })}>
+                <Link href="/" className={buttonVariants({ size: "default" })}>
                     Done
                 </Link>
             </div>
