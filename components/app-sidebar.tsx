@@ -13,11 +13,7 @@ import {
     SidebarHeader,
     SidebarRail,
 } from "@/components/ui/sidebar";
-import {
-    BlocksIcon,
-    LayoutTemplateIcon,
-    Settings2Icon,
-} from "lucide-react";
+import { BlocksIcon, LayoutTemplateIcon, Settings2Icon } from "lucide-react";
 
 function ArkoLogo({ className }: { className?: string }) {
     return <Image src="/icon.svg" alt="" width={24} height={24} className={className} />;
@@ -47,10 +43,6 @@ const data = {
                     title: "Overview",
                     url: "/",
                 },
-                {
-                    title: "Recent diagrams",
-                    url: "#diagrams",
-                },
             ],
         },
         {
@@ -71,10 +63,6 @@ const data = {
             items: [
                 {
                     title: "General",
-                    url: "#",
-                },
-                {
-                    title: "Appearance",
                     url: "#",
                 },
             ],
