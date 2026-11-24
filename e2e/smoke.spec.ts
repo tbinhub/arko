@@ -84,7 +84,7 @@ test("opens the empty React Flow canvas", async ({ page }) => {
     await expect(page.locator(".react-flow")).toBeVisible();
     await expect(page.locator(".react-flow__node")).toHaveCount(0);
     await expect(page.locator(".react-flow__controls")).toBeVisible();
-    await expect(page.locator(".react-flow__minimap")).toBeVisible();
+    await expect(page.locator(".react-flow__minimap")).toHaveCount(0);
 
     const exportButton = page.getByRole("button", { name: "Export" });
     await expect(exportButton).toBeVisible();

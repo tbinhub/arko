@@ -6,7 +6,6 @@ import {
     ConnectionMode,
     Controls,
     MarkerType,
-    MiniMap,
     ReactFlow,
     SelectionMode,
     useReactFlow,
@@ -103,13 +102,6 @@ export function DiagramCanvas() {
                     color="var(--border)"
                 />
                 <Controls position="bottom-left" showInteractive={false} />
-                <MiniMap
-                    position="bottom-right"
-                    pannable
-                    zoomable
-                    className="!border !border-border !bg-background"
-                    maskColor="color-mix(in oklch, var(--background) 72%, transparent)"
-                />
             </ReactFlow>
         </div>
     );
