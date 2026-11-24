@@ -41,6 +41,7 @@ test("uses the collapsible workspace sidebar", async ({ page }) => {
 
     const sidebar = page.locator('[data-slot="sidebar"][data-state]');
     await expect(sidebar).toHaveAttribute("data-state", "expanded");
+    await expect(sidebar.locator('img[src="/icon.svg"]')).toBeVisible();
 
     const menuTriggers = page.locator('[data-slot="dropdown-menu-trigger"]');
     const menuContent = page.locator('[data-slot="dropdown-menu-content"][data-open]');

@@ -1,9 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import * as React from "react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
@@ -15,13 +15,13 @@ import {
 } from "@/components/ui/sidebar";
 import {
     BlocksIcon,
-    FolderKanbanIcon,
-    GalleryVerticalEndIcon,
     LayoutTemplateIcon,
-    NetworkIcon,
     Settings2Icon,
-    WorkflowIcon,
 } from "lucide-react";
+
+function ArkoLogo({ className }: { className?: string }) {
+    return <Image src="/icon.svg" alt="" width={24} height={24} className={className} />;
+}
 
 const data = {
     user: {
@@ -32,7 +32,7 @@ const data = {
     teams: [
         {
             name: "Arko",
-            logo: GalleryVerticalEndIcon,
+            logo: ArkoLogo,
             plan: "Workspace",
         },
     ],
@@ -80,23 +80,6 @@ const data = {
             ],
         },
     ],
-    projects: [
-        {
-            name: "Software architecture",
-            url: "#templates",
-            icon: NetworkIcon,
-        },
-        {
-            name: "System design",
-            url: "#templates",
-            icon: FolderKanbanIcon,
-        },
-        {
-            name: "Workflows",
-            url: "#templates",
-            icon: WorkflowIcon,
-        },
-    ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -107,7 +90,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
             <SidebarContent>
                 <NavMain items={data.navMain} />
-                <NavProjects projects={data.projects} />
             </SidebarContent>
             <SidebarFooter>
                 <NavUser user={data.user} />
