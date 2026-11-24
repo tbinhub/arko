@@ -57,3 +57,21 @@ test("opens an interactive architecture template", async ({ page }) => {
     await expect(page.locator(".react-flow__node")).toHaveCount(5);
     await expect(page.getByText("Application service", { exact: true })).toBeVisible();
 });
+
+test("restores locally saved diagram changes", async ({ page }) => {
+    const documentId = `persistence-${Date.now()}`;
+    await page.goto(`/editor/${documentId}?template=web-application`);
+    await expect(page.locator(".react-flow__node")).toHaveCount(5);
+
+    const title = page.getByLabel("Diagram title");
+    await title.fill("Resilient commerce platform");
+    await page.waitForTimeout(350);
+    await expect
+        .poll(() =>
+            page.evaluate((id) => window.localStorage.getItem(`arko:diagram:${id}`), documentId),
+        )
+        .toContain("Resilient commerce platform");
+    await page.reload();
+
+    await expect(title).toHaveValue("Resilient commerce platform");
+});

@@ -29,7 +29,7 @@ export function EditorHeader() {
                 <div className="mx-1 h-5 w-px bg-border" />
                 <Input
                     value={title}
-                    onChange={(event) => setTitle(event.target.value)}
+                    onInput={(event) => setTitle(event.currentTarget.value)}
                     aria-label="Diagram title"
                     className="h-8 max-w-56 border-transparent bg-transparent px-2 font-medium shadow-none hover:border-border focus-visible:border-border"
                 />

@@ -1,4 +1,4 @@
-import type { Connection, EdgeChangeset, NodeChangeset, XYPosition } from "@xyflow/react";
+import type { Connection, EdgeChangeset, NodeChangeset, Viewport, XYPosition } from "@xyflow/react";
 import { nanoid } from "nanoid";
 import { createStore } from "zustand/vanilla";
 import { nodeCatalogByKind } from "@/features/diagram/model/catalog";
@@ -26,6 +26,8 @@ type DiagramEditorState = {
     deleteSelection: () => void;
     beginTransaction: () => void;
     setTitle: (title: string) => void;
+    setViewport: (viewport: Viewport) => void;
+    loadDocument: (document: DiagramDocument) => void;
     undo: () => void;
     redo: () => void;
 };
@@ -186,6 +188,22 @@ export function createDiagramStore(initialDocument: DiagramDocument) {
             set((state) => ({
                 document: { ...state.document, title, updatedAt: new Date().toISOString() },
             }));
+        },
+
+        setViewport: (viewport) => {
+            set((state) => ({
+                document: { ...state.document, viewport, updatedAt: new Date().toISOString() },
+            }));
+        },
+
+        loadDocument: (document) => {
+            set({
+                document: structuredClone(document),
+                selectedNodeIds: [],
+                selectedEdgeIds: [],
+                past: [],
+                future: [],
+            });
         },
 
         undo: () => {

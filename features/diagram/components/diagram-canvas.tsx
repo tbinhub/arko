@@ -37,6 +37,8 @@ export function DiagramCanvas() {
     const addNode = useDiagramStore((state) => state.addNode);
     const setSelection = useDiagramStore((state) => state.setSelection);
     const beginTransaction = useDiagramStore((state) => state.beginTransaction);
+    const setViewport = useDiagramStore((state) => state.setViewport);
+    const viewport = useDiagramStore((state) => state.document.viewport);
     const { screenToFlowPosition } = useReactFlow<ArchitectureNode, ArchitectureEdge>();
 
     const onDrop = useCallback(
@@ -78,6 +80,8 @@ export function DiagramCanvas() {
                 snapToGrid
                 snapGrid={[16, 16]}
                 fitView
+                defaultViewport={viewport}
+                onMoveEnd={(_, nextViewport) => setViewport(nextViewport)}
                 fitViewOptions={{ padding: 0.25, maxZoom: 1 }}
                 minZoom={0.2}
                 maxZoom={2}
