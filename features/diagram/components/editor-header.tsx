@@ -4,13 +4,14 @@ import Link from "next/link";
 import {
     Download,
     FileJson,
+    FileUp,
     ImageIcon,
     LayoutDashboard,
     LoaderCircle,
     Redo2,
     Undo2,
 } from "lucide-react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useReactFlow } from "@xyflow/react";
 import { BrandMark } from "@/components/brand-mark";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -23,7 +24,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useDiagramStore } from "@/features/diagram/store/diagram-store-provider";
-import { downloadDiagram } from "@/features/diagram/lib/export-document";
+import { downloadDiagram, parseDiagram } from "@/features/diagram/lib/export-document";
 import { layoutDiagram } from "@/features/diagram/lib/auto-layout";
 import type { ArchitectureEdge, ArchitectureNode } from "@/features/diagram/model/types";
 import { downloadDiagramPng } from "@/features/diagram/lib/export-image";
@@ -37,9 +38,11 @@ export function EditorHeader() {
     const canRedo = useDiagramStore((state) => state.future.length > 0);
     const document = useDiagramStore((state) => state.document);
     const setNodePositions = useDiagramStore((state) => state.setNodePositions);
+    const loadDocument = useDiagramStore((state) => state.loadDocument);
     const [isArranging, setIsArranging] = useState(false);
     const [isExportingImage, setIsExportingImage] = useState(false);
     const { fitView } = useReactFlow<ArchitectureNode, ArchitectureEdge>();
+    const importInput = useRef<HTMLInputElement>(null);
 
     async function arrangeDiagram() {
         setIsArranging(true);
@@ -60,6 +63,20 @@ export function EditorHeader() {
             await downloadDiagramPng(document.nodes, document.title);
         } finally {
             setIsExportingImage(false);
+        }
+    }
+
+    async function importDocument(file: File | undefined) {
+        if (!file) return;
+        try {
+            loadDocument(parseDiagram(await file.text(), document.id));
+            window.requestAnimationFrame(
+                () => void fitView({ padding: 0.25, maxZoom: 1, duration: 300 }),
+            );
+        } catch (error) {
+            window.alert(error instanceof Error ? error.message : "Unable to import this diagram.");
+        } finally {
+            if (importInput.current) importInput.current.value = "";
         }
     }
 
@@ -154,8 +171,20 @@ export function EditorHeader() {
                             <ImageIcon />
                             PNG image
                         </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => importInput.current?.click()}>
+                            <FileUp />
+                            Import Arko JSON
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
+                <input
+                    ref={importInput}
+                    type="file"
+                    accept=".json,.arko.json,application/json"
+                    className="sr-only"
+                    aria-label="Import Arko JSON"
+                    onChange={(event) => void importDocument(event.target.files?.[0])}
+                />
                 <Link href="/" className={buttonVariants({ size: "sm" })}>
                     Done
                 </Link>

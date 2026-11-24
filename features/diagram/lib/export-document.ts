@@ -1,4 +1,5 @@
 import type { DiagramDocument } from "@/features/diagram/model/types";
+import { diagramDocumentSchema } from "@/features/diagram/model/schema";
 
 export function serializeDiagram(document: DiagramDocument) {
     return JSON.stringify(document, null, 2);
@@ -22,4 +23,15 @@ export function downloadDiagram(document: DiagramDocument) {
     anchor.download = diagramFileName(document.title);
     anchor.click();
     URL.revokeObjectURL(url);
+}
+
+export function parseDiagram(value: string, documentId: string): DiagramDocument {
+    const result = diagramDocumentSchema.safeParse(JSON.parse(value));
+    if (!result.success) throw new Error("This file is not a valid Arko diagram.");
+
+    return {
+        ...(result.data as DiagramDocument),
+        id: documentId,
+        updatedAt: new Date().toISOString(),
+    };
 }
