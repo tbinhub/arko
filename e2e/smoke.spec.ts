@@ -18,7 +18,10 @@ test("exposes a healthy application status", async ({ request }) => {
 test("exposes application metadata", async ({ page, request }) => {
     await page.goto("/");
 
-    await expect(page).toHaveTitle("Arko");
+    await expect(page).toHaveTitle("Workspace | Arko");
+    await expect(
+        page.getByRole("heading", { name: "Design systems that make sense." }),
+    ).toBeVisible();
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
         "content",
         "Create workflows, software architecture, and system diagrams visually.",
