@@ -74,7 +74,8 @@ test("serves discovery metadata and a custom not-found page", async ({ page, req
 
     const notFoundResponse = await page.goto("/missing-page");
     expect(notFoundResponse?.status()).toBe(404);
-    await expect(page.getByRole("heading", { name: "Not Found" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Page not found" })).toBeVisible();
+    await expect(page.getByRole("link", { name: "Back to home" })).toBeVisible();
 });
 
 test("opens the empty React Flow canvas", async ({ page }) => {

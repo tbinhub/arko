@@ -1,21 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { env } from "@/lib/env";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-
-const geistSans = Geist({
-    subsets: ["latin"],
-    variable: "--font-geist-sans",
-});
-
-const geistMono = Geist_Mono({
-    subsets: ["latin"],
-    variable: "--font-geist-mono",
-});
+import { geistMono, geistSans } from "./fonts";
 
 export const metadata: Metadata = {
     metadataBase: new URL(env.APP_URL),

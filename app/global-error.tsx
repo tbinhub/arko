@@ -1,23 +1,26 @@
 "use client";
 
+import { RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { StatusPage } from "@/components/status-page";
+import { cn } from "@/lib/utils";
+import { geistMono, geistSans } from "./fonts";
 
 export default function GlobalError({ retry }: { error: unknown; retry: () => void }) {
     return (
-        <html lang="en">
-            <body className="bg-background text-foreground flex min-h-screen items-center justify-center p-6">
-                <main className="mx-auto flex max-w-md flex-col items-center text-center">
-                    <p className="text-primary text-sm font-semibold">Something went wrong</p>
-                    <h1 className="mt-2 text-3xl font-semibold tracking-tight">
-                        Arko couldn&apos;t load this page
-                    </h1>
-                    <p className="text-muted-foreground mt-3 text-sm leading-6">
-                        If the problem persists, refresh the page in a few minutes.
-                    </p>
-                    <Button type="button" onClick={() => retry()} className="mt-6">
-                        Try again
-                    </Button>
-                </main>
+        <html lang="en" className={cn(geistSans.variable, geistMono.variable)}>
+            <body>
+                <StatusPage
+                    code="500"
+                    title="Something went wrong"
+                    description="Arko could not load this page. Try again, or return in a few minutes."
+                    action={
+                        <Button type="button" onClick={() => retry()}>
+                            <RotateCcw />
+                            Try again
+                        </Button>
+                    }
+                />
             </body>
         </html>
     );
