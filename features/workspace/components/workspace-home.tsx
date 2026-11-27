@@ -136,7 +136,7 @@ export function WorkspaceHome() {
                             </EmptyDescription>
                         </EmptyHeader>
                         <CreateDiagramButton variant="outline" className="h-10">
-                            Create blank
+                            Create canvas
                         </CreateDiagramButton>
                     </Empty>
                 </div>
