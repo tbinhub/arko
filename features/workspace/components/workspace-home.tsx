@@ -12,7 +12,6 @@ import {
 import { cn } from "@/lib/utils";
 import { CreateDiagramButton } from "@/features/workspace/components/create-diagram-button";
 import { DiagramPreview } from "@/features/workspace/components/diagram-preview";
-import { WorkspaceSettings } from "@/features/workspace/components/workspace-settings";
 
 export function WorkspaceHome() {
     return (
@@ -47,7 +46,6 @@ export function WorkspaceHome() {
                             Browse templates
                             <ArrowRight />
                         </Link>
-                        <WorkspaceSettings />
                     </div>
                 </div>
 
