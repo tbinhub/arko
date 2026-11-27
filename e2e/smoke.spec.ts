@@ -50,13 +50,7 @@ test("uses the collapsible workspace sidebar", async ({ page }) => {
         await menuContent.evaluate((element) => element.getBoundingClientRect().width),
     ).toBeGreaterThanOrEqual(224);
     await page.keyboard.press("Escape");
-
-    await menuTriggers.last().click();
-    await expect(menuContent).toBeVisible();
-    expect(
-        await menuContent.evaluate((element) => element.getBoundingClientRect().width),
-    ).toBeGreaterThanOrEqual(224);
-    await page.keyboard.press("Escape");
+    await expect(page.locator('[data-slot="sidebar-footer"]')).toHaveCount(0);
 
     await page.getByRole("main").getByRole("button", { name: "Toggle Sidebar" }).click();
     await expect(sidebar).toHaveAttribute("data-state", "collapsed");
