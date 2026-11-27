@@ -1,123 +1,150 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { AppSidebar } from "@/components/app-sidebar";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { ArrowRight, LayoutTemplate } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+    Empty,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+} from "@/components/ui/empty";
 import { cn } from "@/lib/utils";
 import { CreateDiagramButton } from "@/features/workspace/components/create-diagram-button";
 import { DiagramPreview } from "@/features/workspace/components/diagram-preview";
-import { workspaceTemplates } from "@/features/workspace/model/workspace-data";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { WorkspaceSettings } from "@/features/workspace/components/workspace-settings";
 
 export function WorkspaceHome() {
     return (
-        <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
-                    <div className="flex items-center gap-2 px-4">
-                        <SidebarTrigger className="-ml-1" />
-                        <Separator
-                            orientation="vertical"
-                            className="mr-2 data-vertical:h-4 data-vertical:self-auto"
-                        />
-                        <Breadcrumb>
-                            <BreadcrumbList>
-                                <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="/">Arko</BreadcrumbLink>
-                                </BreadcrumbItem>
-                                <BreadcrumbSeparator className="hidden md:block" />
-                                <BreadcrumbItem>
-                                    <BreadcrumbPage>Workspace</BreadcrumbPage>
-                                </BreadcrumbItem>
-                            </BreadcrumbList>
-                        </Breadcrumb>
+        <main className="min-h-dvh bg-background">
+            <section className="relative isolate overflow-hidden border-b bg-muted/20 px-4 pt-4 pb-16 sm:px-6 sm:pt-6 sm:pb-20">
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(var(--border)_1px,transparent_1px)] bg-size-[22px_22px] opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent_82%)]"
+                />
+                <header className="mx-auto flex h-14 max-w-6xl items-center justify-between rounded-2xl border bg-background/90 px-3 shadow-sm backdrop-blur-md sm:px-4">
+                    <Link
+                        href="/"
+                        aria-label="Arko home"
+                        className="flex h-10 items-center gap-2.5 rounded-lg px-1.5 font-semibold tracking-tight outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                    >
+                        <Image src="/icon.svg" alt="" width={28} height={28} priority />
+                        <span>Arko</span>
+                    </Link>
+
+                    <div className="flex items-center gap-2">
+                        <WorkspaceSettings />
+                        <CreateDiagramButton className="h-10 px-4">
+                            Create blank
+                        </CreateDiagramButton>
                     </div>
-                    <CreateDiagramButton className="mr-4 ml-auto hidden sm:inline-flex" />
                 </header>
 
-                <div className="px-6 py-8 sm:px-8 lg:px-10">
-                    <section className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-                        <div>
-                            <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-                                Software Workflow
-                            </h1>
-                            <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
-                                A workspace for architecture, diagrams, and workflows.
-                            </p>
-                        </div>
-                        <CreateDiagramButton className="sm:hidden" />
-                    </section>
+                <div className="mx-auto flex max-w-4xl flex-col items-center pt-20 text-center sm:pt-24">
+                    <p className="text-sm font-medium text-primary">Arko diagram workspace</p>
+                    <h1 className="mt-4 max-w-3xl text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-6xl">
+                        Design systems with Arko.
+                    </h1>
+                    <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground text-balance sm:text-lg">
+                        Map software architecture, system designs, and workflows on one focused
+                        canvas.
+                    </p>
+                    <div className="mt-8 flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row">
+                        <CreateDiagramButton className="h-10 px-5">
+                            Create blank
+                        </CreateDiagramButton>
+                        <Link
+                            href="#templates"
+                            className={cn(
+                                buttonVariants({ variant: "outline", size: "lg" }),
+                                "h-10 gap-1.5 px-5",
+                            )}
+                        >
+                            Browse templates
+                            <ArrowRight />
+                        </Link>
+                    </div>
+                </div>
 
-                    <section id="templates" className="mt-12 scroll-mt-6">
-                        <div className="mb-5 flex items-center justify-between">
+                <div className="mx-auto mt-16 grid max-w-6xl gap-4 lg:grid-cols-[1.35fr_0.65fr]">
+                    <Card className="group gap-0 overflow-hidden py-0 transition-transform duration-200 hover:-translate-y-0.5">
+                        <div className="h-52 border-b sm:h-64">
+                            <DiagramPreview accent="emerald" density="empty" />
+                        </div>
+                        <CardContent className="flex flex-col gap-5 p-5 sm:flex-row sm:items-end sm:justify-between sm:p-6">
                             <div>
-                                <h2 className="text-lg font-semibold tracking-tight">
-                                    Start from a template
+                                <h2 className="font-heading text-xl font-semibold tracking-tight">
+                                    Blank canvas
                                 </h2>
-                                <p className="mt-1 text-sm text-muted-foreground">
-                                    Choose a pattern to start your design.
+                                <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+                                    Begin with an open canvas and shape the system your way.
                                 </p>
                             </div>
-                            <Link
-                                href="#templates"
-                                className={cn(
-                                    buttonVariants({ variant: "ghost", size: "sm" }),
-                                    "gap-1",
-                                )}
-                            >
-                                View all
-                                <ArrowRight />
-                            </Link>
-                        </div>
-                        <div className="grid gap-4 md:grid-cols-1 xl:grid-cols-1">
-                            {workspaceTemplates.map((template) => (
-                                <Card
-                                    key={template.id}
-                                    className="gap-0 py-0 transition hover:-translate-y-0.5 hover:shadow-md"
-                                >
-                                    <div className="h-36 border-b">
-                                        <DiagramPreview
-                                            accent={template.accent}
-                                            density={
-                                                template.id === "blank"
-                                                    ? "empty"
-                                                    : template.nodes > 6
-                                                      ? "dense"
-                                                      : "simple"
-                                            }
-                                        />
-                                    </div>
-                                    <CardHeader className="pt-4 pb-2">
-                                        <CardTitle>{template.name}</CardTitle>
-                                    </CardHeader>
-                                    <CardContent className="pb-4">
-                                        <p className="min-h-10 text-xs leading-5 text-muted-foreground">
-                                            {template.description}
-                                        </p>
-                                        <CreateDiagramButton
-                                            templateId={template.id}
-                                            variant="outline"
-                                            className="mt-3 w-full"
-                                        >
-                                            Use template
-                                        </CreateDiagramButton>
-                                    </CardContent>
-                                </Card>
-                            ))}
-                        </div>
-                    </section>
+                            <CreateDiagramButton variant="outline" className="h-10 sm:shrink-0">
+                                Create blank
+                            </CreateDiagramButton>
+                        </CardContent>
+                    </Card>
+
+                    <Link
+                        href="#templates"
+                        className="group rounded-xl outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                    >
+                        <Card className="h-full gap-0 overflow-hidden py-0 transition-transform duration-200 group-hover:-translate-y-0.5">
+                            <div className="relative flex min-h-52 items-center justify-center overflow-hidden border-b bg-muted/35 p-8 sm:min-h-64">
+                                <div className="absolute h-28 w-40 translate-x-5 -rotate-3 rounded-xl border bg-background/70 shadow-sm" />
+                                <div className="absolute h-28 w-40 -translate-x-3 rotate-2 rounded-xl border bg-background/85 shadow-sm" />
+                                <div className="relative flex h-28 w-40 items-center justify-center rounded-xl border bg-background shadow-sm transition-transform duration-200 group-hover:-translate-y-1">
+                                    <LayoutTemplate className="size-7 text-primary" />
+                                </div>
+                            </div>
+                            <CardContent className="flex items-end justify-between gap-4 p-5 sm:p-6">
+                                <div>
+                                    <h2 className="font-heading text-xl font-semibold tracking-tight">
+                                        Workflow templates
+                                    </h2>
+                                    <p className="mt-1.5 text-sm leading-6 text-muted-foreground">
+                                        Start from a structure designed for a common workflow.
+                                    </p>
+                                </div>
+                                <ArrowRight className="mb-1 size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5 group-hover:text-foreground" />
+                            </CardContent>
+                        </Card>
+                    </Link>
                 </div>
-            </SidebarInset>
-        </SidebarProvider>
+            </section>
+
+            <section id="templates" className="scroll-mt-6 px-4 py-16 sm:px-6 sm:py-20">
+                <div className="mx-auto max-w-6xl">
+                    <div className="max-w-xl">
+                        <p className="text-sm font-medium text-primary">Arko library</p>
+                        <h2 className="mt-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+                            Workflow templates
+                        </h2>
+                        <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
+                            Reusable starting points for architecture, system design, and workflow
+                            diagrams.
+                        </p>
+                    </div>
+
+                    <Empty className="mt-8 min-h-64 border bg-muted/15">
+                        <EmptyHeader>
+                            <EmptyMedia variant="icon">
+                                <LayoutTemplate />
+                            </EmptyMedia>
+                            <EmptyTitle>Template library is coming next</EmptyTitle>
+                            <EmptyDescription>
+                                For now, start with a blank canvas. Curated Arko workflows will
+                                appear here as they are ready.
+                            </EmptyDescription>
+                        </EmptyHeader>
+                        <CreateDiagramButton variant="outline" className="h-10">
+                            Create blank
+                        </CreateDiagramButton>
+                    </Empty>
+                </div>
+            </section>
+        </main>
     );
 }
