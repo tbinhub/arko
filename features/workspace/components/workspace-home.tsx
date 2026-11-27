@@ -32,7 +32,7 @@ export function WorkspaceHome() {
                 />
                 <div className="arko-hero-enter mx-auto flex max-w-4xl flex-col items-center text-center">
                     <h1 className="max-w-4xl font-semibold tracking-tight text-balance">
-                        <span className="block bg-linear-to-r from-emerald-700 via-primary to-teal-500 bg-clip-text text-6xl leading-none text-transparent sm:text-8xl dark:from-emerald-300 dark:via-emerald-400 dark:to-teal-300">
+                        <span className="mx-auto block w-fit bg-[linear-gradient(105deg,#007f4e_0%,#00c978_48%,#2583ff_100%)] bg-clip-text text-6xl leading-none text-transparent sm:text-8xl dark:bg-[linear-gradient(105deg,#61e9b0_0%,#22d391_48%,#60a5fa_100%)]">
                             Arko
                         </span>
                         <span className="mt-4 block text-3xl leading-tight sm:text-5xl">
