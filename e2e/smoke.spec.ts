@@ -81,11 +81,12 @@ test("serves discovery metadata and a custom not-found page", async ({ page, req
 test("opens the empty React Flow canvas", async ({ page }) => {
     await page.goto("/editor/e2e-preview?template=blank");
 
-    await expect(page.getByLabel("Diagram title")).toHaveValue("Software Workflow");
+    await expect(page.getByLabel("Software workflow title")).toHaveValue("Software Workflow");
     await expect(page.locator(".react-flow")).toBeVisible();
     await expect(page.locator(".react-flow__node")).toHaveCount(0);
     await expect(page.locator(".react-flow__controls")).toBeVisible();
     await expect(page.locator(".react-flow__minimap")).toHaveCount(0);
+    await expect(page.getByRole("link", { name: "React Flow attribution" })).toHaveCount(0);
 
     const exportButton = page.getByRole("button", { name: "Export" });
     await expect(exportButton).toBeVisible();
@@ -98,7 +99,7 @@ test("restores locally saved diagram changes", async ({ page }) => {
     await page.goto(`/editor/${documentId}?template=blank`);
     await expect(page.locator(".react-flow__node")).toHaveCount(0);
 
-    const title = page.getByLabel("Diagram title");
+    const title = page.getByLabel("Software workflow title");
     await title.fill("Resilient commerce platform");
     await page.waitForTimeout(350);
     await expect

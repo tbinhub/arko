@@ -29,6 +29,7 @@ import { dragType } from "./node-palette";
 const nodeTypes: NodeTypes = { architecture: ArchitectureNodeComponent };
 const edgeTypes: EdgeTypes = { architecture: ArchitectureEdgeComponent };
 const architectureKinds = new Set<string>(architectureNodeKinds);
+const proOptions = { hideAttribution: true } as const;
 
 export function DiagramCanvas() {
     const nodes = useDiagramStore((state) => state.document.nodes);
@@ -93,6 +94,7 @@ export function DiagramCanvas() {
                     markerEnd: { type: MarkerType.ArrowClosed, width: 16, height: 16 },
                     style: { strokeWidth: 1.5 },
                 }}
+                proOptions={proOptions}
                 className="arko-canvas"
             >
                 <Background
