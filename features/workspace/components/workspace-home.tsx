@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, LayoutTemplate } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -18,30 +17,12 @@ import { WorkspaceSettings } from "@/features/workspace/components/workspace-set
 export function WorkspaceHome() {
     return (
         <main className="min-h-dvh bg-background">
-            <section className="relative isolate overflow-hidden border-b bg-muted/20 px-4 pt-4 pb-16 sm:px-6 sm:pt-6 sm:pb-20">
+            <section className="relative isolate overflow-hidden border-b bg-muted/20 px-4 py-16 sm:px-6 sm:py-20">
                 <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(var(--border)_1px,transparent_1px)] bg-size-[22px_22px] opacity-60 [mask-image:linear-gradient(to_bottom,black,transparent_82%)]"
                 />
-                <header className="mx-auto flex h-14 max-w-6xl items-center justify-between rounded-2xl border bg-background/90 px-3 shadow-sm backdrop-blur-md sm:px-4">
-                    <Link
-                        href="/"
-                        aria-label="Arko home"
-                        className="flex h-10 items-center gap-2.5 rounded-lg px-1.5 font-semibold tracking-tight outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                    >
-                        <Image src="/icon.svg" alt="" width={28} height={28} priority />
-                        <span>Arko</span>
-                    </Link>
-
-                    <div className="flex items-center gap-2">
-                        <WorkspaceSettings />
-                        <CreateDiagramButton className="h-10 px-4">
-                            Create blank
-                        </CreateDiagramButton>
-                    </div>
-                </header>
-
-                <div className="mx-auto flex max-w-4xl flex-col items-center pt-20 text-center sm:pt-24">
+                <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
                     <h1 className="max-w-3xl font-semibold tracking-tight text-balance">
                         <span className="block text-6xl leading-none sm:text-8xl">Arko</span>
                         <span className="mt-4 block text-3xl leading-tight sm:text-5xl">
@@ -66,6 +47,7 @@ export function WorkspaceHome() {
                             Browse templates
                             <ArrowRight />
                         </Link>
+                        <WorkspaceSettings />
                     </div>
                 </div>
 

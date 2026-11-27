@@ -23,9 +23,9 @@ export function WorkspaceSettings() {
 
     return (
         <Sheet>
-            <SheetTrigger render={<Button variant="ghost" size="icon-lg" />}>
+            <SheetTrigger render={<Button variant="outline" size="lg" className="h-10 px-5" />}>
                 <Settings2 />
-                <span className="sr-only">Open workflow settings</span>
+                Settings
             </SheetTrigger>
             <SheetContent side="right">
                 <SheetHeader className="border-b p-5 pr-12">
