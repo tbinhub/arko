@@ -42,9 +42,11 @@ export function WorkspaceHome() {
                 </header>
 
                 <div className="mx-auto flex max-w-4xl flex-col items-center pt-20 text-center sm:pt-24">
-                    <p className="text-sm font-medium text-primary">Arko diagram workspace</p>
-                    <h1 className="mt-4 max-w-3xl text-4xl leading-tight font-semibold tracking-tight text-balance sm:text-6xl">
-                        Design systems with Arko.
+                    <h1 className="max-w-3xl font-semibold tracking-tight text-balance">
+                        <span className="block text-6xl leading-none sm:text-8xl">Arko</span>
+                        <span className="mt-4 block text-3xl leading-tight sm:text-5xl">
+                            Design systems with clarity.
+                        </span>
                     </h1>
                     <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground text-balance sm:text-lg">
                         Map software architecture, system designs, and workflows on one focused
