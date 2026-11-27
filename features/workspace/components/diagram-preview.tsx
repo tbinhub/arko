@@ -17,10 +17,15 @@ export function DiagramPreview({ accent, density = "simple" }: DiagramPreviewPro
     if (density === "empty") {
         return (
             <div className="relative h-full min-h-36 overflow-hidden bg-[radial-gradient(var(--border)_1px,transparent_1px)] bg-size-[16px_16px]">
-                <div className="absolute inset-0 bg-linear-to-br from-transparent to-muted/40" />
+                <div className="absolute -top-24 -left-16 size-72 rounded-full bg-primary/10 blur-3xl transition-transform duration-500 group-hover:translate-x-4 group-hover:translate-y-2" />
+                <div className="absolute -right-20 -bottom-28 size-72 rounded-full bg-chart-2/8 blur-3xl transition-transform duration-500 group-hover:-translate-x-3 group-hover:-translate-y-2" />
+                <div className="absolute top-1/2 left-1/2 h-px w-28 -translate-x-1/2 bg-linear-to-r from-transparent via-primary/25 to-transparent" />
+                <div className="absolute top-1/2 left-1/2 h-28 w-px -translate-y-1/2 bg-linear-to-b from-transparent via-primary/25 to-transparent" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="rounded-lg border bg-background/90 px-3 py-1.5 text-xs text-muted-foreground shadow-sm">
-                        Empty canvas
+                    <span className="relative rounded-lg border border-primary/20 bg-background px-3 py-1.5 text-xs text-muted-foreground shadow-sm transition-[transform,border-color] duration-200 group-hover:scale-[1.03] group-hover:border-primary/40">
+                        <span className="absolute -top-1 -left-1 size-2 rounded-full border border-primary/40 bg-background" />
+                        <span className="absolute -right-1 -bottom-1 size-2 rounded-full border border-primary/40 bg-background" />
+                        Create a new canvas
                     </span>
                 </div>
             </div>

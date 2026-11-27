@@ -14,13 +14,49 @@ body {
     }
 }
 
+@keyframes arko-ambient-drift {
+    from {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+        transform: translate3d(2.5rem, 1.25rem, 0) scale(1.06);
+    }
+}
+
+@keyframes arko-hero-enter {
+    from {
+        transform: translateY(0.75rem);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
 .arko-edge-flow {
     stroke-dasharray: 8 5;
     animation: arko-edge-flow 1s linear infinite;
 }
 
+.arko-ambient-orb {
+    animation: arko-ambient-drift 14s ease-in-out infinite alternate;
+}
+
+.arko-ambient-orb--reverse {
+    animation-direction: alternate-reverse;
+    animation-duration: 18s;
+}
+
+.arko-hero-enter {
+    animation: arko-hero-enter 500ms ease-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .arko-edge-flow {
+        animation: none;
+    }
+
+    .arko-ambient-orb,
+    .arko-hero-enter {
         animation: none;
     }
 }
