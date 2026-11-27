@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, LayoutTemplate } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -33,16 +32,8 @@ export function WorkspaceHome() {
                 />
                 <div className="arko-hero-enter mx-auto flex max-w-4xl flex-col items-center text-center">
                     <h1 className="max-w-4xl font-semibold tracking-tight text-balance">
-                        <span className="flex items-center justify-center gap-3 text-6xl leading-none sm:gap-4 sm:text-8xl">
-                            <Image
-                                src="/icon.svg"
-                                alt=""
-                                width={76}
-                                height={76}
-                                priority
-                                className="size-14 drop-shadow-sm sm:size-[4.75rem]"
-                            />
-                            <span>Arko</span>
+                        <span className="block bg-linear-to-r from-emerald-700 via-primary to-teal-500 bg-clip-text text-6xl leading-none text-transparent sm:text-8xl dark:from-emerald-300 dark:via-emerald-400 dark:to-teal-300">
+                            Arko
                         </span>
                         <span className="mt-4 block text-3xl leading-tight sm:text-5xl">
                             Visualize systems.{" "}
